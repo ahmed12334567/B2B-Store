@@ -44,7 +44,7 @@ let googleIdToken = null; // متغير لحفظ التوكن الآمن الق�
 async function submitRegasterForm() {
   try {
     const payload = {
-        username: username.value.trim(),
+        name: username.value.trim(),
         email: email.value.trim(),
         password: password.value.trim(),
         confirmPassword: confirmPassword.value.trim(),
