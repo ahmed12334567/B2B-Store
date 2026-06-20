@@ -1,0 +1,12 @@
+node_modules/
+
+.env
+
+front-end/node_modules/
+Back-end/node_modules/
+
+front-end/dist/
+Back-end/build/
+
+.vscode/
+.DS_Store
