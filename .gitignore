@@ -7,6 +7,9 @@ Back-end/node_modules/
 
 front-end/dist/
 Back-end/build/
-
+node_modules/
+.env
+access.log
+*.log
 .vscode/
 .DS_Store
