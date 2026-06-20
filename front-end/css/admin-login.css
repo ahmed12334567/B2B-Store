@@ -1,0 +1,46 @@
+      .admin-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.3rem 0.85rem;
+        border-radius: var(--radius-full);
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.03em;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      }
+
+      .admin-badge i {
+        font-size: 0.7rem;
+      }
+
+      .auth-header .auth-icon.admin-icon {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+      }
+
+      .btn-submit.admin-btn {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      }
+
+      .btn-submit.admin-btn:hover {
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        filter: brightness(1.08);
+      }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4f46e5;
+    border-radius: 10px;
+}

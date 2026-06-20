@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="تسوق أفضل المنتجات التقنية بأسعار مميزة مع خصومات حصرية وتوصيل سريع" />
+    <title>Shop — متجر التقنية</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap (carousel only) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+      integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+      crossorigin="anonymous"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+
+  <body class="page-loading">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="main-navbar">
+      <div class="navbar-inner">
+        <!-- Brand -->
+        <a href="#" class="brand">Shop</a>
+
+        <!-- Collapsible Menu -->
+        <div class="navbar-collapse" id="navbar-collapse">
+          <!-- Nav Links -->
+          <ul class="nav-links">
+            <li><a href="#" class="active">الرئيسية</a></li>
+            <li><a href="#">المنتجات</a></li>
+            <li><a href="#">الخصومات</a></li>
+          </ul>
+
+          <!-- Search -->
+          <div class="search-box" id="search-box">
+            <input type="text" placeholder="ابحث عن منتج ..." id="search-input">
+            <button aria-label="بحث">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+
+          <!-- Auth / User -->
+          <div class="auth-buttons" id="links">
+            <a href="pages/login.html" id="loginLink" class="btn-login">
+              <i class="fa-regular fa-circle-user"></i>
+              تسجيل الدخول
+            </a>
+            <span class="auth-divider"></span>
+            <a href="pages/regastion.html" id="regusiterLink" class="btn-register">
+              انشاء حساب
+            </a>
+          </div>
+          <span id="usernameText" class="username-display">
+            <i class="fa-regular fa-circle-user"></i>
+          </span>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="nav-right-controls">
+          <!-- Cart -->
+          <a href="#" class="cart-btn" id="cart-button" aria-label="سلة المشتريات">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+          </a>
+
+          <!-- Theme Toggle -->
+          <label id="theme-toggle-button">
+            <input type="checkbox" id="toggle">
+            <svg viewBox="0 0 69.667 44"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(3.5 3.5)" data-name="Component 15 – 1" id="Component_15_1">
+                <g filter="url(#container)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                  <rect fill="#83cbd8" transform="translate(3.5 3.5)" rx="17.5"
+                    height="35" width="60.667" data-name="container" id="container"></rect>
+                </g>
+                <g transform="translate(2.333 2.333)" id="button">
+                  <g data-name="sun" id="sun">
+                    <g filter="url(#sun-outer)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                      <circle fill="#f8e664" transform="translate(5.83 5.83)"
+                        r="15.167" cy="15.167" cx="15.167" data-name="sun-outer" id="sun-outer-2"></circle>
+                    </g>
+                    <g filter="url(#sun)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                      <path fill="rgba(246,254,247,0.29)"
+                        transform="translate(9.33 9.33)"
+                        d="M11.667,0A11.667,11.667,0,1,1,0,11.667,11.667,11.667,0,0,1,11.667,0Z"
+                        data-name="sun" id="sun-3"></path>
+                    </g>
+                    <circle fill="#fcf4b9" transform="translate(8.167 8.167)"
+                      r="7" cy="7" cx="7" id="sun-inner"></circle>
+                  </g>
+                  <g data-name="moon" id="moon">
+                    <g filter="url(#moon)" transform="matrix(1, 0, 0, 1, -31.5, -5.83)">
+                      <circle fill="#cce6ee" transform="translate(31.5 5.83)"
+                        r="15.167" cy="15.167" cx="15.167" data-name="moon" id="moon-3"></circle>
+                    </g>
+                    <g fill="#a6cad0" transform="translate(-24.415 -1.009)" id="patches">
+                      <circle transform="translate(43.009 4.496)" r="2" cy="2" cx="2"></circle>
+                      <circle transform="translate(39.366 17.952)" r="2" cy="2" cx="2" data-name="patch"></circle>
+                      <circle transform="translate(33.016 8.044)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                      <circle transform="translate(51.081 18.888)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                      <circle transform="translate(33.016 22.503)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                      <circle transform="translate(50.081 10.53)" r="1.5" cy="1.5" cx="1.5" data-name="patch"></circle>
+                    </g>
+                  </g>
+                </g>
+                <g filter="url(#cloud)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                  <path fill="#fff" transform="translate(-3466.47 -160.94)"
+                    d="M3512.81,173.815a4.463,4.463,0,0,1,2.243.62.95.95,0,0,1,.72-1.281,4.852,4.852,0,0,1,2.623.519c.034.02-.5-1.968.281-2.716a2.117,2.117,0,0,1,2.829-.274,1.821,1.821,0,0,1,.854,1.858c.063.037,2.594-.049,3.285,1.273s-.865,2.544-.807,2.626a12.192,12.192,0,0,1,2.278.892c.553.448,1.106,1.992-1.62,2.927a7.742,7.742,0,0,1-3.762-.3c-1.28-.49-1.181-2.65-1.137-2.624s-1.417,2.2-2.623,2.2a4.172,4.172,0,0,1-2.394-1.206,3.825,3.825,0,0,1-2.771.774c-3.429-.46-2.333-3.267-2.2-3.55A3.721,3.721,0,0,13512.81,173.815Z"
+                    data-name="cloud" id="cloud"></path>
+                </g>
+                <g fill="#def8ff" transform="translate(3.585 1.325)" id="stars">
+                  <path transform="matrix(-1, 0.017, -0.017, -1, 24.231, 3.055)"
+                    d="M.774,0,.566.559,0,.539.458.933.25,1.492l.485-.361.458.394L1.024.953,1.509.592.943.572Z"></path>
+                  <path transform="matrix(-0.777, 0.629, -0.629, -0.777, 23.185, 12.358)"
+                    d="M1.341.529.836.472.736,0,.505.46,0,.4.4.729l-.231.46L.605.932l.4.326L.9.786Z" data-name="star"></path>
+                  <path transform="matrix(0.438, 0.899, -0.899, 0.438, 23.177, 29.735)"
+                    d="M.015,1.065.475.9l.285.365L.766.772l.46-.164L.745.494.751,0,.481.407,0,.293.285.658Z" data-name="star"></path>
+                  <path transform="translate(12.677 0.388) rotate(104)"
+                    d="M1.161,1.6,1.059,1,1.574.722.962.607.86,0,.613.572,0,.457.446.881.2,1.454l.516-.274Z" data-name="star"></path>
+                  <path transform="matrix(-0.07, 0.998, -0.998, -0.07, 11.066, 15.457)"
+                    d="M.873,1.648l.114-.62L1.579.945,1.03.62,1.144,0,.706.464.157.139.438.7,0,1.167l.592-.083Z" data-name="star"></path>
+                  <path transform="translate(8.326 28.061) rotate(11)"
+                    d="M.593,0,.638.724,0,.982l.7.211.045.724.36-.64.7.211L1.342.935,1.7.294,1.063.552Z" data-name="star"></path>
+                  <path transform="translate(5.012 5.962) rotate(172)"
+                    d="M.816,0,.5.455,0,.311.323.767l-.312.455.516-.215.323.456L.827.911,1.343.7.839.552Z" data-name="star"></path>
+                  <path transform="translate(2.218 14.616) rotate(169)"
+                    d="M1.261,0,.774.571.114.3.487.967,0,1.538.728,1.32l.372.662.047-.749.728-.218L1.215.749Z" data-name="star"></path>
+                </g>
+              </g>
+            </svg>
+          </label>
+
+          <!-- Burger Button -->
+          <button class="burger-btn" id="burger-btn" aria-label="القائمة">
+            <span class="burger-bar"></span>
+            <span class="burger-bar"></span>
+            <span class="burger-bar"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero-section">
+      <div class="hero-content animate-on-scroll">
+        <h1 class="hero-title">
+          مرحباً بك في <span class="highlight">متجرنا</span>
+        </h1>
+        <p class="hero-subtitle">
+          استكشف منتجاتنا التقنية المميزة واحصل على خصومات حصرية مع توصيل سريع وآمن
+        </p>
+        <div class="hero-actions">
+          <a href="#products">
+            <button class="btn-primary" id="shop-now-btn">
+              <i class="fas fa-shopping-bag"></i>
+              تسوق الآن
+            </button>
+          </a>
+          <a href="#features">
+            <button class="btn-secondary" id="explore-btn">
+              <i class="fas fa-compass"></i>
+              استكشف المنتجات
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CAROUSEL ========== -->
+    <div class="carousel-wrapper animate-on-scroll">
+      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="assets/images/3182f1b6-c4f3-4cea-86c3-244959dccb0a.jpg"
+              class="d-block carousel-image" alt="عروض مميزة">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/4d712413-341c-4074-a141-63dbe5643400.jpg"
+              class="d-block carousel-image" alt="منتجات تقنية">
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/8ce0ca91-0c6f-424a-9394-cf33f06dc840.jpg"
+              class="d-block carousel-image" alt="أجهزة حديثة">
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/ab143e53-42ce-44a8-a097-d9020fa3d0ca.jpg"
+              class="d-block carousel-image" alt="إلكترونيات">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button"
+          data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button"
+          data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========== PRODUCTS ========== -->
+    <section class="products-section" id="products">
+      <div class="products-header">
+        <h2 class="section-title">منتجات مميزة</h2>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- Card 1 -->
+         <div class="product-wrapper">
+           <a href="" class="product-card animate-on-scroll">
+             <div class="product-card-image">
+               <img src="" class="product-img">
+             </div>
+             <div class="product-card-body">
+               <h4></h4>
+               <p class="description"></p>
+               <div class="price-row">
+                 <span class="price-current">$</span>
+                 <span class="price-old">$</span>
+               </div>
+               <div class="card-actions">
+                 <button class="btn-buy">
+                   <i class="fa-solid fa-bolt"></i>
+                   اشتري الآن
+                 </button>
+                 <button class="btn-cart">
+                   <i class="fa-solid fa-cart-plus"></i>
+                   أضف إلى السلة
+                 </button>
+               </div>
+               <p class="delivery-info">
+                 <i class="fa-solid fa-truck-fast"></i>
+                 توصيل خلال 3-5 أيام
+               </p>
+             </div>
+           </a>
+
+         </div>
+
+        <!-- Card 2 -->
+        <a href="" class="product-card animate-on-scroll">
+          <div class="product-card-image">
+            <img src="" alt="">
+          </div>
+          <div class="product-card-body">
+            <h4></h4>
+            <p class="description"></p>
+            <div class="price-row">
+              <span class="price-current">$</span>
+              <span class="price-old">$</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-buy">
+                <i class="fa-solid fa-bolt"></i>
+                اشتري الآن
+              </button>
+              <button class="btn-cart">
+                <i class="fa-solid fa-cart-plus"></i>
+                أضف إلى السلة
+              </button>
+            </div>
+            <p class="delivery-info">
+              <i class="fa-solid fa-truck-fast"></i>
+              توصيل خلال 3-5 أيام
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="" class="product-card animate-on-scroll">
+          <div class="product-card-image">
+            <img src="" alt="">
+          </div>
+          <div class="product-card-body">
+            <h4></h4>
+            <p class="description"></p>
+            <div class="price-row">
+              <span class="price-current">$</span>
+              <span class="price-old">$</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-buy">
+                <i class="fa-solid fa-bolt"></i>
+                اشتري الآن
+              </button>
+              <button class="btn-cart">
+                <i class="fa-solid fa-cart-plus"></i>
+                أضف إلى السلة
+              </button>
+            </div>
+            <p class="delivery-info">
+              <i class="fa-solid fa-truck"></i>
+              توصيل خلال 3-5 أيام
+            </p>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="" class="product-card animate-on-scroll">
+          <div class="product-card-image">
+            <img src="" alt="">
+          </div>
+          <div class="product-card-body">
+            <h4></h4>
+            <p class="description"></p>
+            <div class="price-row">
+              <span class="price-current">$</span>
+              <span class="price-old">$</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-buy">
+                <i class="fa-solid fa-bolt"></i>
+                اشتري الآن
+              </button>
+              <button class="btn-cart">
+                <i class="fa-solid fa-cart-plus"></i>
+                أضف إلى السلة
+              </button>
+            </div>
+            <p class="delivery-info">
+              <i class="fa-solid fa-truck-fast"></i>
+              توصيل خلال 3-5 أيام
+            </p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ========== FEATURES & OFFERS ========== -->
+    <section class="features-offers" id="features">
+      <div class="features-card animate-on-scroll">
+        <h2 class="section-title">مميزات متجرنا</h2>
+        <ul class="feature-list">
+          <li class="feature-item">
+            <i class="fa-solid fa-award feature-icon"></i>
+            منتجات عالية الجودة
+          </li>
+          <li class="feature-item">
+            <i class="fa-solid fa-tags feature-icon"></i>
+            خصومات حصرية للعملاء
+          </li>
+          <li class="feature-item">
+            <i class="fa-solid fa-truck-fast feature-icon"></i>
+            توصيل سريع وآمن
+          </li>
+          <li class="feature-item">
+            <i class="fa-solid fa-headset feature-icon"></i>
+            خدمة عملاء متميزة
+          </li>
+          <li class="feature-item">
+            <i class="fa-solid fa-shield-halved feature-icon"></i>
+            دفع آمن ومحمي
+          </li>
+        </ul>
+      </div>
+
+      <div class="offers-card animate-on-scroll">
+        <h2 class="section-title">عرض خاص</h2>
+        <p class="offer-title">
+          خصم <span class="offer-badge">%20</span><br>
+          على جميع المنتجات<br>
+          في متجرنا ولفترة محدودة
+        </p>
+        <div style="margin-top: 1.5rem;">
+          <a href="#products">
+            <button class="btn-primary">
+              <i class="fas fa-fire"></i>
+              اغتنم العرض
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <p>© 2026 Shop — جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
