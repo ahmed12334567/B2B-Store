@@ -18,8 +18,8 @@ router.get("/:id", (req, res) =>{
     })
 })
 
-router.get("/", async (req, res) =>{
-    productModel.getAllProduct((error, result) =>{
+router.get("/", (req, res) =>{
+    productModel.getAllProduct((error, result) => {
         if(error){
             console.error("Error Fetching product: ", err)
             return res.status(500).json({success: false, message: "Internal Server Error"})
@@ -32,5 +32,9 @@ router.get("/", async (req, res) =>{
         }
     })
 })
+
+
+
+
 
 module.exports = router;

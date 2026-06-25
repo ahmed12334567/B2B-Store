@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan")
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname, 'access.log'), 
     { flags: 'a' }
@@ -19,6 +20,9 @@ app.use("/api/auth", authRoutes)
 
 const productRoutes = require("../src/routes/product.routes.js")
 app.use("/api/products", productRoutes)
+
+const orderRout = require("../src/routes/order.routes.js")
+app.use("/api/order", orderRout)
 
 const dashboardRoutes = require("../src/routes/dashboard.routes.js")
 app.use("/api/dashboard", dashboardRoutes)

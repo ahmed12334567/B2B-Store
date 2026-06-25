@@ -2,7 +2,18 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const pool = require("../config/db");
+const productModel = require("../models/product.model");
+const orderModel = require("../models/order.model")
 require("dotenv").config();
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const cloudinary = require("cloudinary").v2
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -14,10 +25,13 @@ function verifyAdmin(req, res, next) {
     if (!token) {
         return res.status(401).json({ success: false, message: "Token is required" });
     }
+    // if(token === "test_token"){
+    //     next()
+    // }
 
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
-            return res.status(403).json({ success: false, message: "Invalid or expired token" });
+            return res.status(401).json({ success: false, message: "Invalid or expired token" });
         }
         req.adminEmail = decoded.email;
         req.adminId = decoded.id;
@@ -31,8 +45,8 @@ router.get("/stats", verifyAdmin, (req, res) => {
         totalUsers: "SELECT COUNT(*) as count FROM users",
         totalProducts: "SELECT COUNT(*) as count FROM products",
         totalOrders: "SELECT COUNT(*) as count FROM orders",
-        recentUsers: `SELECT user_id, name, email, created_at FROM users ORDER BY user_id DESC LIMIT 5`,
-        recentProducts: `SELECT product_id, name, price, image_url FROM products ORDER BY product_id DESC LIMIT 5`
+        recentUsers: `SELECT user_id, name, email FROM users WHERE role = "customer" ORDER BY user_id DESC LIMIT 5 `,
+        recentProducts: `SELECT product_id, product_name,Stock_Quantity,description, price, imgURL FROM products ORDER BY product_id DESC LIMIT 5`
     };
 
     const stats = {};
@@ -98,5 +112,96 @@ router.get("/products", verifyAdmin, (req, res) => {
         return res.status(200).json({ success: true, data: result });
     });
 });
+router.get("/last-products",verifyAdmin, (req, res) => {
+    productModel.getLastProduct((error, result) => {
+        if (error) {
+            console.log("Error Fetching product: ", error);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
+        }
+        
+        if (result && result.length > 0) {
+            return res.status(200).json({ success: true, data: result });
+        } else {
+            return res.status(404).json({ success: false, message: "No products found in database" });
+        }
+    });
+});
+router.post("/createProduct", verifyAdmin, upload.single('image'), async (req, res) => {
+    try {
+        const productName = req.body?.productName?.trim();
+        const price = req.body?.price;
+        const description = req.body?.description?.trim();
+        const quantity = req.body?.quantity;
+        const category = req.body?.category?.trim(); // أضفنا ? لحمايتها من الانهيار إذا كانت فارغة
+        const file = req.file;
 
+        // التحقق من وجود الصورة
+        if (!file) {
+            return res.status(400).json({ success: false, message: "يرجى رفع صورة المنتج" });
+        }
+
+        // تحويل الصورة إلى Base64 لرفعها إلى Cloudinary
+        const fileBase64 = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+        
+        const uploadResult = await cloudinary.uploader.upload(fileBase64, {
+            folder: 'products'
+        });
+        
+        const imageUrl = uploadResult.secure_url;
+
+        // تحديد رقم القسم
+        let categoryID = 3;
+        if (category === "الكترونيات") {
+            categoryID = 1;
+        } else if (category === "ملابس") {
+            categoryID = 2;
+        }
+
+        const newProduct = {
+            name: productName,
+            Quantity: quantity,
+            description: description,
+            price: price,
+            category_id: categoryID,
+            imgURL: imageUrl
+        };
+
+        // إدخال المنتج في قاعدة البيانات
+        productModel.createProduct(newProduct, (error, result) => {
+            if (error) {
+                console.error("DB Error: ", error);
+                return res.status(500).json({ success: false, message: "حدث خطأ في قاعدة البيانات" });
+            }
+
+            // تم تعديل الشرط ليناسب عمليات الـ INSERT (التأكد من نجاح العملية)
+            if (result) {
+                return res.status(201).json({ 
+                    success: true, 
+                    message: "تم إنشاء المنتج بنجاح", 
+                    product: newProduct 
+                });
+            } else {
+                return res.status(400).json({ success: false, message: "لم يتم حفظ المنتج" });
+            }
+        });
+
+    } catch (err) {
+        console.error("Cloudinary or Server Error: ", err);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+router.get("/all-orders", verifyAdmin, (req, res) =>{
+    orderModel.getAllOrders((error, result) => {
+        if(error){
+            console.log("DB Error: ", error);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
+        }
+        if(result){
+            return res.status(200).json({success: true, data:{message: "All orders returned successfuly",
+                orders: result
+            }})
+        }
+    })
+})
 module.exports = router;

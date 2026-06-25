@@ -40,6 +40,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Load dashboard data
   loadDashboardStats();
+
+  // Initialize add product feature
+  initAddProductFeature();
 });
 
 function updateTime() {
@@ -121,6 +124,7 @@ function navigateTo(page) {
   // Load data for the page if needed
   if (page === "users") loadAllUsers();
   if (page === "products") loadAllProducts();
+  if (page === "orders") loadAllOrders();
 
   // Close mobile sidebar
   closeSidebar();
@@ -219,24 +223,23 @@ async function loadDashboardStats() {
 
   const stats = data.data;
 
-  // Update stat counters with animation
   animateCounter("totalUsersCount", stats.totalUsers || 0);
   animateCounter("totalProductsCount", stats.totalProducts || 0);
   animateCounter("totalOrdersCount", stats.totalOrders || 0);
 
-  // Users badge
   const usersBadge = document.getElementById("usersBadge");
   if (usersBadge && stats.totalUsers > 0) {
     usersBadge.textContent = stats.totalUsers;
     usersBadge.style.display = "inline";
   }
 
-  // Render recent users table
   renderRecentUsers(stats.recentUsers || []);
 
-  // Render recent products table
-  renderRecentProducts(stats.recentProducts || []);
+  const mergedRecentProducts = (stats.recentProducts || []).slice(0, 5);
+  renderRecentProducts(mergedRecentProducts);
 }
+
+loadDashboardStats();
 
 function animateCounter(elementId, target) {
   const el = document.getElementById(elementId);
@@ -300,7 +303,7 @@ function renderRecentProducts(products) {
   const tbody = document.getElementById("recentProductsTable");
   if (!tbody) return;
 
-  if (products.length === 0) {
+  if (!products || products.length === 0) {
     tbody.innerHTML = `
       <tr>
         <td colspan="2">
@@ -320,11 +323,11 @@ function renderRecentProducts(products) {
       <td>
         <div class="product-cell">
           ${
-            product.image_url
-              ? `<img src="${product.image_url}" class="product-thumb" alt="${product.name}">`
+            product.imgURL
+              ? `<img src="${product.imgURL}" class="product-thumb" alt="${product.product_name}">`
               : `<div class="product-thumb" style="display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-image" style="color:var(--text-muted);"></i></div>`
           }
-          <span class="product-name">${product.name || "بدون اسم"}</span>
+          <span class="product-name">${product.product_name}</span>
         </div>
       </td>
       <td><span class="price-tag">$${product.price || 0}</span></td>
@@ -333,6 +336,14 @@ function renderRecentProducts(products) {
     .join("");
 }
 
+async function getLastProducts() {
+  const data = await apiFetch("/stats");
+  if (!data || !data.success) return;
+  
+  renderRecentProducts(data.data.recentProducts); 
+}
+
+getLastProducts();
 // ========================================
 // LOAD ALL USERS (Users page)
 // ========================================
@@ -396,7 +407,8 @@ async function loadAllProducts() {
   const tbody = document.getElementById("allProductsTable");
   if (!tbody) return;
 
-  const products = data.data || [];
+  const apiProducts = data.data || [];
+  const products = [...apiProducts];
 
   if (products.length === 0) {
     tbody.innerHTML = `
@@ -419,11 +431,11 @@ async function loadAllProducts() {
       <td>
         <div class="product-cell">
           ${
-            product.image_url
-              ? `<img src="${product.image_url}" class="product-thumb" alt="${product.name}">`
+            product.imgURL
+              ? `<img src="${product.imgURL}" class="product-thumb" alt="${product.product_name}">`
               : `<div class="product-thumb" style="display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-image" style="color:var(--text-muted);"></i></div>`
           }
-          <span class="product-name">${product.name || "بدون اسم"}</span>
+          <span class="product-name">${product.product_name}</span>
         </div>
       </td>
       <td><span class="price-tag">$${product.price || 0}</span></td>
@@ -433,4 +445,331 @@ async function loadAllProducts() {
     </tr>`
     )
     .join("");
+}
+// load all orders
+async function loadAllOrders() {
+  const data = await apiFetch("/all-orders");
+  if (!data || !data.success) return;
+
+  const tbody = document.getElementById("allOrdersTable");
+  if (!tbody) return;
+
+  const apiOrders = data.data.orders || [];
+  const orders = [...apiOrders];
+
+  if (orders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4">
+          <div class="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <p>لا توجد منتجات</p>
+          </div>
+        </td>
+      </tr>`;
+    return;
+  }
+
+tbody.innerHTML = orders
+  .map(
+    (order, index) => `
+  <tr>
+    <td>${index + 1}</td> 
+    
+    <td>${order.name || "غير معروف"}</td>
+    
+    <td>${order.email || "—"}</td>
+    
+    <td>
+      <span class="status-badge status-${String(order.Order_Status).toLowerCase()}">
+        ${order.Order_Status || "معلق"}
+      </span>
+    </td>
+    
+    <td>${order.order_date ? new Date(order.order_date).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : "—"}</td>
+    
+    <td><span class="price-tag">$${order.Total_Amount || 0}</span></td>
+  </tr>`
+  )
+  .join("");
+}
+let selectedProductImageBase64 = "";
+
+function initAddProductFeature() {
+  const quickAddBtn = document.getElementById("quickAddProductBtn");
+  const openAddBtn = document.getElementById("openAddProductBtn");
+  const closeBtn = document.getElementById("closeAddProductModalBtn");
+  const cancelBtn = document.getElementById("cancelAddProductBtn");
+  const form = document.getElementById("addProductForm");
+  const addProductModal = document.getElementById("addProductModal");
+  const fileInput = document.getElementById("prodImage");
+  const fileText = document.getElementById("file-upload-text");
+  const previewContainer = document.getElementById("imagePreviewContainer");
+  const previewImg = document.getElementById("imagePreview");
+
+  if (quickAddBtn) quickAddBtn.addEventListener("click", openAddProductModal);
+  if (openAddBtn) openAddBtn.addEventListener("click", openAddProductModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeAddProductModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeAddProductModal);
+
+  if (addProductModal) {
+    addProductModal.addEventListener("click", (e) => {
+      if (e.target === addProductModal) {
+        closeAddProductModal();
+      }
+    });
+  }
+
+  // Handle file select and read base64
+  if (fileInput) {
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) {
+        selectedProductImageBase64 = "";
+        if (fileText) fileText.textContent = "اختر صورة للمنتج";
+        if (previewContainer) previewContainer.style.display = "none";
+        return;
+      }
+
+      // Check file size (max 1.5MB to protect localStorage space)
+      if (file.size > 1.5 * 1024 * 1024) {
+        document.getElementById("prodImageError").style.display = "block";
+        selectedProductImageBase64 = "";
+        if (fileText) fileText.textContent = "اختر صورة للمنتج";
+        if (previewContainer) previewContainer.style.display = "none";
+        fileInput.value = "";
+        return;
+      } else {
+        document.getElementById("prodImageError").style.display = "none";
+      }
+
+      if (fileText) fileText.textContent = file.name;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        selectedProductImageBase64 = event.target.result;
+        if (previewImg) previewImg.src = selectedProductImageBase64;
+        if (previewContainer) previewContainer.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", handleAddProductSubmit);
+  }
+}
+
+function openAddProductModal() {
+  const addProductModal = document.getElementById("addProductModal");
+  if (addProductModal) {
+    addProductModal.classList.add("show");
+  }
+}
+
+function closeAddProductModal() {
+  const addProductModal = document.getElementById("addProductModal");
+  if (addProductModal) {
+    addProductModal.classList.remove("show");
+  }
+  resetAddProductForm();
+}
+
+function resetAddProductForm() {
+  const form = document.getElementById("addProductForm");
+  if (form) {
+    form.reset();
+  }
+  
+  selectedProductImageBase64 = "";
+  
+  const fileText = document.getElementById("file-upload-text");
+  if (fileText) fileText.textContent = "اختر صورة للمنتج";
+  
+  const previewContainer = document.getElementById("imagePreviewContainer");
+  if (previewContainer) previewContainer.style.display = "none";
+  
+  const previewImg = document.getElementById("imagePreview");
+  if (previewImg) previewImg.src = "";
+  
+  // Reset border colors and hide error messages
+  ["prodName", "prodPrice", "prodCategory", "prodQuantity"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.borderColor = "";
+  });
+  
+  ["prodNameError", "prodPriceError", "prodImageError", "prodCategoryError", "prodQuantityError"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+}
+
+async function handleAddProductSubmit(e) {
+  e.preventDefault();
+
+  const nameEl = document.getElementById("prodName");
+  const priceEl = document.getElementById("prodPrice");
+  const categoryEl = document.getElementById("prodCategory");
+  const quantityEl = document.getElementById("prodQuantity");
+  const descEl = document.getElementById("prodDesc");
+  const fileInput = document.getElementById("prodImage");
+
+  const productName = nameEl.value.trim();
+  const price = parseFloat(priceEl.value);
+  const category = categoryEl.value;
+  const quantity = parseInt(quantityEl.value);
+  const description = descEl.value.trim();
+  const file = fileInput.files[0];
+
+  let isValid = true;
+
+  // التحقق من المدخلات
+  if (!productName || productName.length < 3) {
+    document.getElementById("prodNameError").style.display = "block";
+    nameEl.style.borderColor = "var(--danger)";
+    isValid = false;
+  } else {
+    document.getElementById("prodNameError").style.display = "none";
+    nameEl.style.borderColor = "";
+  }
+
+  if (isNaN(price) || price <= 0) {
+    document.getElementById("prodPriceError").style.display = "block";
+    priceEl.style.borderColor = "var(--danger)";
+    isValid = false;
+  } else {
+    document.getElementById("prodPriceError").style.display = "none";
+    priceEl.style.borderColor = "";
+  }
+
+  if (!category) {
+    document.getElementById("prodCategoryError").style.display = "block";
+    categoryEl.style.borderColor = "var(--danger)";
+    isValid = false;
+  } else {
+    document.getElementById("prodCategoryError").style.display = "none";
+    categoryEl.style.borderColor = "";
+  }
+
+  if (isNaN(quantity) || quantity < 1) {
+    document.getElementById("prodQuantityError").style.display = "block";
+    quantityEl.style.borderColor = "var(--danger)";
+    isValid = false;
+  } else {
+    document.getElementById("prodQuantityError").style.display = "none";
+    quantityEl.style.borderColor = "";
+  }
+
+  if (!file) {
+    const errorEl = document.getElementById("prodImageError");
+    if (errorEl) {
+      errorEl.style.display = "block";
+      errorEl.textContent = "يرجى اختيار صورة للمنتج (مطلوب).";
+    }
+    isValid = false;
+  } else {
+    const errorEl = document.getElementById("prodImageError");
+    if (errorEl) errorEl.style.display = "none";
+  }
+
+  // إذا كانت المدخلات غير صالحة نوقف الدالة هنا
+  if (!isValid) return;
+
+  // 1. 🌟 هنا نضع كود بدء التحميل وتعطيل الزر (بمجرد تخطي التحقق)
+  // تأكد أن الـ id في الـ HTML لزر الإرسال هو "submitBtnId" أو قم بتغييره هنا ليطابقه
+  const submitBtn = document.getElementById("submitBtnId") || e.target.querySelector('button[type="submit"]'); 
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري إضافة المنتج ورسم الصورة...';
+  }
+
+  try {
+    const token = getAdminToken();
+    const formData = new FormData();
+    
+    formData.append("productName", productName);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("quantity", quantity);
+    formData.append("category", category);
+    
+    if (file) {
+      formData.append("image", file);
+    }
+
+    const res = await fetch("http://localhost:3000/api/dashboard/createProduct", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "حدث خطأ أثناء إضافة المنتج");
+    }
+
+    console.log("تم إضافة المنتج بنجاح:", result);
+    showToast("تم إنشاء المنتج بنجاح في قاعدة البيانات!", "success");
+
+    closeAddProductModal();
+    loadDashboardStats();
+    
+    const activeLink = document.querySelector(".sidebar-link.active");
+    if (activeLink && activeLink.dataset.page === "products") {
+      loadAllProducts();
+    }
+    if (activeLink && activeLink.dataset.page === "orders") {
+      loadAllOrders();
+    }
+
+  } catch (err) {
+    console.error("فشل الاتصال بالسيرفر:", err);
+    showToast(err.message || "فشل جلب البيانات من السيرفر", "danger");
+  } finally {
+    // 2. 🌟 هنا كود إنهاء التحميل وإرجاع الزر لطبيعته (يعمل في حالتي النجاح أو الفشل)
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'إضافة المنتج';
+    }
+  }
+}
+
+
+
+// ========================================
+// TOAST SYSTEM
+// ========================================
+function showToast(message, type = "success") {
+  const container = document.getElementById("toastContainer");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  const iconClass = type === "success" ? "fa-circle-check" : "fa-circle-exclamation";
+  
+  toast.innerHTML = `
+    <div class="toast-icon">
+      <i class="fa-solid ${iconClass}"></i>
+    </div>
+    <div class="toast-message">${message}</div>
+  `;
+
+  container.appendChild(toast);
+
+  // Trigger CSS animations
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 10);
+
+  // Dismiss automatically after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      toast.remove();
+    }, 400);
+  }, 3000);
 }

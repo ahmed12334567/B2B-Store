@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop - طلب المنتج</title>
+  <link rel="stylesheet" href="../css/Pages/order.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="main-navbar">
+    <div class="navbar-inner">
+      <!-- Brand -->
+      <a href="../index.html" class="brand">Shop</a>
+
+      <!-- Collapsible Menu -->
+      <div class="navbar-collapse" id="navbar-collapse">
+        <!-- Nav Links -->
+        <ul class="nav-links">
+          <li><a href="../index.html">الرئيسية</a></li>
+          <li><a href="../index.html#products" class="active">المنتجات</a></li>
+          <li><a href="../index.html#features">الخصومات</a></li>
+        </ul>
+
+
+        <!-- Auth / User -->
+        <span id="usernameText" class="username-display">
+          <i class="fa-regular fa-circle-user"></i>
+        </span>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="nav-right-controls">
+        <!-- Theme Toggle -->
+        <label id="theme-toggle-button">
+          <input type="checkbox" id="toggle">
+          <svg viewBox="0 0 69.667 44" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(3.5 3.5)" data-name="Component 15 – 1" id="Component_15_1">
+              <g filter="url(#container)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                <rect fill="#83cbd8" transform="translate(3.5 3.5)" rx="17.5" height="35" width="60.667"
+                  data-name="container" id="container"></rect>
+              </g>
+              <g transform="translate(2.333 2.333)" id="button">
+                <g data-name="sun" id="sun">
+                  <g filter="url(#sun-outer)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                    <circle fill="#f8e664" transform="translate(5.83 5.83)" r="15.167" cy="15.167" cx="15.167"
+                      data-name="sun-outer" id="sun-outer-2"></circle>
+                  </g>
+                  <g filter="url(#sun)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                    <path fill="rgba(246,254,247,0.29)" transform="translate(9.33 9.33)"
+                      d="M11.667,0A11.667,11.667,0,1,1,0,11.667,11.667,11.667,0,0,1,11.667,0Z" data-name="sun"
+                      id="sun-3"></path>
+                  </g>
+                  <circle fill="#fcf4b9" transform="translate(8.167 8.167)" r="7" cy="7" cx="7" id="sun-inner"></circle>
+                </g>
+                <g data-name="moon" id="moon">
+                  <g filter="url(#moon)" transform="matrix(1, 0, 0, 1, -31.5, -5.83)">
+                    <circle fill="#cce6ee" transform="translate(31.5 5.83)" r="15.167" cy="15.167" cx="15.167"
+                      data-name="moon" id="moon-3"></circle>
+                  </g>
+                  <g fill="#a6cad0" transform="translate(-24.415 -1.009)" id="patches">
+                    <circle transform="translate(43.009 4.496)" r="2" cy="2" cx="2"></circle>
+                    <circle transform="translate(39.366 17.952)" r="2" cy="2" cx="2" data-name="patch"></circle>
+                    <circle transform="translate(33.016 8.044)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                    <circle transform="translate(51.081 18.888)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                    <circle transform="translate(33.016 22.503)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                    <circle transform="translate(50.081 10.53)" r="1.5" cy="1.5" cx="1.5" data-name="patch"></circle>
+                  </g>
+                </g>
+              </g>
+              <g filter="url(#cloud)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                <path fill="#fff" transform="translate(-3466.47 -160.94)"
+                  d="M3512.81,173.815a4.463,4.463,0,0,1,2.243.62.95.95,0,0,1,.72-1.281,4.852,4.852,0,0,1,2.623.519c.034.02-.5-1.968.281-2.716a2.117,2.117,0,0,1,2.829-.274,1.821,1.821,0,0,1,.854,1.858c.063.037,2.594-.049,3.285,1.273s-.865,2.544-.807,2.626a12.192,12.192,0,0,1,2.278.892c.553.448,1.106,1.992-1.62,2.927a7.742,7.742,0,0,1-3.762-.3c-1.28-.49-1.181-2.65-1.137-2.624s-1.417,2.2-2.623,2.2a4.172,4.172,0,0,1-2.394-1.206,3.825,3.825,0,0,1-2.771.774c-3.429-.46-2.333-3.267-2.2-3.55A3.721,3.721,0,0,13512.81,173.815Z"
+                  data-name="cloud" id="cloud"></path>
+              </g>
+              <g fill="#def8ff" transform="translate(3.585 1.325)" id="stars">
+                <path transform="matrix(-1, 0.017, -0.017, -1, 24.231, 3.055)"
+                  d="M.774,0,.566.559,0,.539.458.933.25,1.492l.485-.361.458.394L1.024.953,1.509.592.943.572Z"></path>
+                <path transform="matrix(-0.777, 0.629, -0.629, -0.777, 23.185, 12.358)"
+                  d="M1.341.529.836.472.736,0,.505.46,0,.4.4.729l-.231.46L.605.932l.4.326L.9.786Z" data-name="star">
+                </path>
+                <path transform="matrix(0.438, 0.899, -0.899, 0.438, 23.177, 29.735)"
+                  d="M.015,1.065.475.9l.285.365L.766.772l.46-.164L.745.494.751,0,.481.407,0,.293.285.658Z"
+                  data-name="star"></path>
+                <path transform="translate(12.677 0.388) rotate(104)"
+                  d="M1.161,1.6,1.059,1,1.574.722.962.607.86,0,.613.572,0,.457.446.881.2,1.454l.516-.274Z"
+                  data-name="star"></path>
+                <path transform="matrix(-0.07, 0.998, -0.998, -0.07, 11.066, 15.457)"
+                  d="M.873,1.648l.114-.62L1.579.945,1.03.62,1.144,0,.706.464.157.139.438.7,0,1.167l.592-.083Z"
+                  data-name="star"></path>
+                <path transform="translate(8.326 28.061) rotate(11)"
+                  d="M.593,0,.638.724,0,.982l.7.211.045.724.36-.64.7.211L1.342.935,1.7.294,1.063.552Z" data-name="star">
+                </path>
+                <path transform="translate(5.012 5.962) rotate(172)"
+                  d="M.816,0,.5.455,0,.311.323.767l-.312.455.516-.215.323.456L.827.911,1.343.7.839.552Z"
+                  data-name="star"></path>
+                <path transform="translate(2.218 14.616) rotate(169)"
+                  d="M1.261,0,.774.571.114.3.487.967,0,1.538.728,1.32l.372.662.047-.749.728-.218L1.215.749Z"
+                  data-name="star"></path>
+              </g>
+            </g>
+          </svg>
+        </label>
+
+        <!-- Burger Button -->
+        <button class="burger-btn" id="burger-btn" aria-label="القائمة">
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    <section class="product-hero">
+      <div class="product-info">
+        <h1 class="product-title" id="productName">جاري تحميل المنتج...</h1>
+        <p class="product-desc" id="productDesc"></p>
+        <p class="product-price" id="itemPrice"></p>
+      </div>
+      <div class="product-image-wrap">
+        <img id="productImg" src="" alt="Product Image" class="product-img" />
+        <div class="img-placeholder" style="display:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
+            stroke="#7c6af0" stroke-width="1.5">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+          <span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badge Row -->
+    <div class="badges-row">
+      <div class="badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c6af0"
+          stroke-width="2">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        منتج أصلي ومضمون 100%
+      </div>
+      <div class="badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c6af0"
+          stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+        توصيل سريع خلال 3-5 أيام
+      </div>
+      <div class="badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c6af0"
+          stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        إمكانية الإرجاع خلال 14 يوم
+      </div>
+    </div>
+
+    <!-- ===== ORDER FORM GRID ===== -->
+    <section class="order-grid">
+
+      <!-- LEFT COLUMN: Order Summary + Customer Form -->
+      <div class="order-left">
+
+        <!-- Order Summary Card -->
+        <div class="card order-summary">
+          <h2 class="card-title">ملخص الطلب</h2>
+
+          <!-- Product Row with Quantity -->
+          <div class="summary-product">
+            <div class="summary-product-info">
+              <div class="summary-product-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="#7c6af0" stroke-width="1.8">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                </svg>
+              </div>
+              <div>
+                <p class="summary-product-name"></p>
+              </div>
+            </div>
+            <!-- Quantity Controls -->
+            <div class="qty-controls">
+              <button class="qty-btn" id="qtyDecrease" aria-label="Decrease quantity">−</button>
+              <span class="qty-value" id="qtyDisplay">1</span>
+              <button class="qty-btn" id="qtyIncrease" aria-label="Increase quantity">+</button>
+            </div>
+            <p class="summary-item-price" id="itemPrice"></p>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- Price Breakdown -->
+          <div class="price-breakdown">
+            <div class="price-row">
+              <span>المجموع الفرعي</span>
+              <span id="subtotal"></span>
+            </div>
+            <div class="price-row">
+              <span>الضريبة (14%)</span>
+              <span id="vatAmt"></span>
+            </div>
+            <div class="price-row">
+              <span>رسوم الشحن</span>
+              <span id="shipping" class="shipping-fee">25.00$</span>
+            </div>
+            <div class="price-row discount-row" id="discountRow" style="display:none;">
+              <span>الخصم</span>
+              <span id="discountAmt" class="discount-amt">-0.00$</span>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <div class="price-row total-row">
+            <span>الإجمالي</span>
+            <span id="totalPrice" class="total-amount"></span>
+          </div>
+
+          <!-- Coupon -->
+          <div class="coupon-wrap">
+            <input type="text" id="couponInput" placeholder="كود الخصم (جرب: SAVE10)" class="coupon-input" />
+            <button class="coupon-btn" id="applyCoupon">تطبيق</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+        </div>
+
+        <!-- Customer Info Card -->
+
+      </div>
+
+      <!-- RIGHT COLUMN: Shipping + Payment -->
+      <div class="order-right">
+
+        <!-- Shipping Info Card -->
+        <div class="card shipping-info">
+          <h2 class="card-title">معلومات الشحن</h2>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="address">العنوان</label>
+              <input type="text" id="address" placeholder="شارع التحرير، بجوار ..." required />
+            </div>
+            <div class="form-group full-width">
+              <label for="phone">العنوان</label>
+              <input type="text" id="phone" placeholder="0123456789" required />
+            </div>
+            <div class="form-group">
+              <label for="city">المدينة</label>
+              <input type="text" id="city" placeholder="القاهرة" required />
+            </div>
+            <div class="form-group full-width">
+              <label for="country">الدولة</label>
+              <select id="country">
+                <option value="eg">مصر 🇪🇬</option>
+                <option value="sa">المملكة العربية السعودية 🇸🇦</option>
+                <option value="ae">الإمارات العربية المتحدة 🇦🇪</option>
+                <option value="kw">الكويت 🇰🇼</option>
+                <option value="jo">الأردن 🇯🇴</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label for="notes">ملاحظات إضافية (اختياري)</label>
+              <textarea id="notes" rows="3" placeholder="أي تعليمات خاصة بالتوصيل ..."></textarea>
+            </div>
+          </div>
+
+          <!-- Shipping Speed Options -->
+          <div class="shipping-options">
+            <p class="shipping-options-title">طريقة الشحن</p>
+            <label class="shipping-option">
+              <input type="radio" name="shippingMethod" value="standard" checked />
+              <div class="shipping-option-content">
+                <span class="shipping-option-name">شحن عادي (3-5 أيام)</span>
+                <span class="shipping-option-price">25.00$</span>
+              </div>
+            </label>
+            <label class="shipping-option">
+              <input type="radio" name="shippingMethod" value="express" />
+              <div class="shipping-option-content">
+                <span class="shipping-option-name">شحن سريع (1-2 يوم)</span>
+                <span class="shipping-option-price">45.00$</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Payment Method Card -->
+        <div class="card payment-method">
+          <h2 class="card-title">طريقة الدفع</h2>
+
+          <!-- Payment Tabs -->
+          <div class="payment-tabs">
+            <button class="payment-tab active" data-tab="card">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+              بطاقة ائتمان
+            </button>
+            <button class="payment-tab" data-tab="cash">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <rect x="2" y="6" width="20" height="12" rx="2" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              دفع عند الاستلام
+            </button>
+            <button class="payment-tab" data-tab="wallet">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+                <path d="M16 3h-8l-2 4h12z" />
+                <circle cx="17" cy="13" r="1" fill="currentColor" />
+              </svg>
+              محفظة إلكترونية
+            </button>
+          </div>
+
+          <!-- Card Payment Form -->
+          <div class="tab-content active" id="tab-card">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="cardName">اسم صاحب البطاقة</label>
+                <input type="text" id="cardName" placeholder="Ahmed Abdulrahman" />
+              </div>
+              <div class="form-group full-width">
+                <label for="cardNumber">رقم البطاقة</label>
+                <div class="card-input-wrap">
+                  <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" />
+                  <div class="card-icons">
+                    <span class="card-icon visa">VISA</span>
+                    <span class="card-icon mc">MC</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cardExpiry">تاريخ الانتهاء</label>
+                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
+              </div>
+              <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="3" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Cash on Delivery -->
+          <div class="tab-content" id="tab-cash">
+            <div class="cash-info">
+              <div class="cash-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                  stroke="#7c6af0" stroke-width="1.5">
+                  <rect x="2" y="6" width="20" height="12" rx="2" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M6 12h.01M18 12h.01" />
+                </svg>
+              </div>
+              <p>سيتم تحصيل المبلغ عند استلام الطرد. يُرجى تجهيز المبلغ كاملاً مسبقاً.</p>
+            </div>
+          </div>
+
+          <!-- E-Wallet -->
+          <div class="tab-content" id="tab-wallet">
+            <div class="wallet-options">
+              <label class="wallet-option">
+                <input type="radio" name="wallet" value="vodafone" checked />
+                <div class="wallet-option-content">
+                  <span class="wallet-brand vodafone">Vodafone Cash</span>
+                  <span class="wallet-number">01X XXX XXXX</span>
+                </div>
+              </label>
+              <label class="wallet-option">
+                <input type="radio" name="wallet" value="instapay" />
+                <div class="wallet-option-content">
+                  <span class="wallet-brand instapay">InstaPay</span>
+                  <span class="wallet-number">رابط الدفع الفوري</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Place Order Button -->
+        <button class="btn-place-order" id="placeOrderBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          تأكيد الطلب — <span id="btnTotal">427.50$</span>
+        </button>
+
+        <!-- Security Note -->
+        <p class="security-note">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          مدفوعاتك محمية بتشفير SSL 256-bit
+        </p>
+
+      </div>
+    </section>
+
+    </div>
+  </main>
+
+  <!-- ===== SUCCESS MODAL ===== -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#4ade80"
+          stroke-width="2">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <h3>تم تأكيد طلبك!</h3>
+      <p>رقم الطلب: <strong id="orderNumber">#ORD-00001</strong></p>
+      <p>سيتم التواصل معك قريباً لتأكيد التفاصيل.</p>
+      <button class="modal-close-btn" id="closeModal">حسناً، شكراً!</button>
+    </div>
+  </div>
+
+  <script src="../js/pages/order.js"></script>
+</body>
+
+</html>

@@ -42,15 +42,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id');
-
+  
   const container = document.getElementById('product-detail-container');
   const loading = document.getElementById('loading-indicator');
-
+  const buyButton = document.getElementById("btn-buy-large") 
   const titleEl = document.getElementById('product-title');
   const descEl = document.getElementById('product-desc');
   const priceEl = document.getElementById('product-price');
+  const oldPrice = document.getElementById("product-old-price")
   const imageEl = document.getElementById('product-image');
-
+buyButton.setAttribute("data-product-id", productId)
   // Handle burger menu
   const burgerBtn = document.getElementById('burger-btn');
   const navbarCollapse = document.getElementById('navbar-collapse');
@@ -83,7 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       titleEl.textContent = product.name || product.product_name || product.title || 'اسم المنتج غير متوفر';
       descEl.textContent = product.description || product.details || 'وصف المنتج غير متوفر حالياً.';
       priceEl.textContent = `${product.price || 0}$`;
-
+        const originalPrice = Number(product.price);
+        const discountedPrice = originalPrice + (originalPrice * 20 / 100);
+      oldPrice.textContent = `${discountedPrice}$`
       const imageFile = product.imgURL;
       if (imageFile) {
         // Depending on DB format it might be a full URL or just the file name. We assume file name here as per index.html.
@@ -140,9 +143,8 @@ async function checkUser() {
       usernameText.innerHTML = `<i class="fa-solid fa-circle-user"></i> أهلاً بك , ${data.user.name}`;
       usernameText.classList.add("visible");
     } else {
-      // الزيتونة هنا: لو السيرفر رجع false (يعني التوكن منتهي أو فيه مشكلة)
       console.log("Token is expired or invalid. Clearing localStorage.");
-      localStorage.removeItem("token"); // امسح التوكن الميت ده عشان ميبعتوش تاني
+      localStorage.removeItem("token");
     }
 
   } catch (err) {
@@ -150,4 +152,34 @@ async function checkUser() {
   }
 }
 
+
 checkUser();
+function isTokenExpired(token) {
+    if (!token) return true;
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('0' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const payload = JSON.parse(jsonPayload);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return payload.exp < currentTime;
+    } catch (e) {
+        return true;
+    }
+}
+
+document.getElementById('btn-buy-large').addEventListener('click', function () {
+  const token = localStorage.getItem('token');
+
+  if (token && !isTokenExpired(token)) {
+    const id = this.dataset.productId;
+    window.location.href = `order.html?id=${id}`;
+  } else {
+    alert('جلسة العمل انتهت أو غير موجودة، يرجى تسجيل الدخول');
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+  }
+});
