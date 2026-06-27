@@ -1,3 +1,29 @@
+const errorModal     = document.getElementById('errorModal');
+const errorTitleEl   = document.getElementById('errorTitle');
+const errorMessageEl = document.getElementById('errorMessage');
+let errorRedirectUrl = null;
+
+function showErrorModal(title, message, redirectUrl = null) {
+  if (errorTitleEl) errorTitleEl.textContent = title;
+  if (errorMessageEl) errorMessageEl.textContent = message;
+  errorRedirectUrl = redirectUrl;
+  errorModal?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeErrorModal() {
+  errorModal?.classList.remove('open');
+  document.body.style.overflow = '';
+  const redirect = errorRedirectUrl;
+  errorRedirectUrl = null;
+  if (redirect) window.location.href = redirect;
+}
+
+document.getElementById('closeModalError')?.addEventListener('click', closeErrorModal);
+errorModal?.addEventListener('click', (e) => {
+  if (e.target === errorModal) closeErrorModal();
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   window.addEventListener('DOMContentLoaded', () => {
@@ -63,8 +89,8 @@ buyButton.setAttribute("data-product-id", productId)
   }
 
   if (!productId) {
-    loading.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> المنتج غير محدد.';
-    loading.style.display = 'block';
+    loading.style.display = 'none';
+    showErrorModal('المنتج غير محدد', 'لم يتم تحديد معرّف المنتج. يرجى العودة واختيار منتج.', '../index.html');
     return;
   }
 
@@ -102,19 +128,16 @@ buyButton.setAttribute("data-product-id", productId)
       // Trigger scroll/fade animation manually
       setTimeout(() => container.classList.add('visible'), 50);
 
-    } else if(data.message === "Product not found") {
-      loading.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> لم يتم العثور على المنتج';
-      loading.style.display = 'block';
+    } else if (data.message === "Product not found") {
+      showErrorModal('المنتج غير موجود', 'لم يتم العثور على المنتج المطلوب. يرجى التحقق من الرابط أو العودة للمتجر.', '../index.html');
+    } else {
+      showErrorModal('تعذّر تحميل المنتج', data.message || 'حدث خطأ أثناء جلب بيانات المنتج.');
     }
 
   } catch (error) {
     console.error('Error fetching product:', error);
     loading.style.display = 'none';
-
-    // In case the DB is not fully set up or we can't fetch, let's just show the mock product for presentation purposes
-    console.log("Showing fallback UI because fetch failed");
-    container.style.display = 'grid';
-    setTimeout(() => container.classList.add('visible'), 50);
+    showErrorModal('خطأ في الاتصال', 'تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.');
   }
 });
 
@@ -178,8 +201,11 @@ document.getElementById('btn-buy-large').addEventListener('click', function () {
     const id = this.dataset.productId;
     window.location.href = `order.html?id=${id}`;
   } else {
-    alert('جلسة العمل انتهت أو غير موجودة، يرجى تسجيل الدخول');
     localStorage.removeItem('token');
-    window.location.href = 'login.html';
+    showErrorModal(
+      'يجب تسجيل الدخول',
+      'جلسة العمل انتهت أو غير موجودة. يرجى تسجيل الدخول للمتابعة.',
+      'login.html'
+    );
   }
 });
