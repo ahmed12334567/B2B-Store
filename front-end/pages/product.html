@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -19,6 +19,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/Pages/product.css">
+    <link rel="stylesheet" href="../css/cart.css">
   </head>
 
   <body class="page-loading">
@@ -132,6 +133,12 @@
             </svg>
           </label>
 
+          <!-- Cart Button -->
+          <a href="#" class="cart-btn" id="cart-button" aria-label="سلة المشتريات">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+          </a>
+
           <!-- Burger Button -->
           <button class="burger-btn" id="burger-btn" aria-label="القائمة">
             <span class="burger-bar"></span>
@@ -181,7 +188,7 @@
             <i class="fa-solid fa-bolt"></i>
             اشتري الآن
           </button>
-          <button class="btn-cart-large">
+          <button class="btn-cart-large" id="btn-add-cart">
             <i class="fa-solid fa-cart-plus"></i>
             أضف إلى السلة
           </button>
@@ -207,6 +214,36 @@
       </div>
     </div>
 
+    <!-- ========== CART SIDEBAR ========== -->
+    <div id="cart-overlay"></div>
+    <aside id="cart-sidebar" aria-label="سلة المشتريات">
+      <div class="cart-header">
+        <h2><i class="fa-solid fa-cart-shopping"></i> سلة المشتريات</h2>
+        <button id="cart-close-btn" aria-label="إغلاق السلة">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="cart-empty-msg" style="display:none;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <p>السلة فارغة</p>
+        <p style="font-size:0.8rem; opacity:0.7;">أضف منتجات للبدء في التسوق</p>
+      </div>
+
+      <div id="cart-items-list"></div>
+
+      <div id="cart-footer" style="display:none;">
+        <div class="cart-total-row">
+          <span class="cart-total-label">الإجمالي</span>
+          <span id="cart-total">0.00$</span>
+        </div>
+        <a href="order.html" class="cart-checkout-btn">
+          <i class="fa-solid fa-bolt"></i>
+          إتمام الطلب
+        </a>
+      </div>
+    </aside>
+
     <!-- ========== FOOTER ========== -->
     <footer class="footer">
       <p>© 2026 Shop — جميع الحقوق محفوظة</p>
@@ -214,9 +251,6 @@
 
     <!-- Scripts -->
     <script src="../js/pages/product.js"></script>
-    <script>
-      // Page load animation
-
-    </script>
+    <script src="../js/cart.js"></script>
   </body>
 </html>

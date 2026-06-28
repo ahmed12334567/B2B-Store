@@ -52,6 +52,29 @@ const vatAmtEl     = document.getElementById('vatAmt');
 const totalPriceEl = document.getElementById('totalPrice');
 const btnTotal     = document.getElementById('btnTotal');
 
+const successModal   = document.getElementById('successModal');
+const errorModal     = document.getElementById('errorModal');
+const errorTitleEl   = document.getElementById('errorTitle');
+const errorMessageEl = document.getElementById('errorMessage');
+
+let errorRedirectUrl = null;
+
+function showErrorModal(title, message, redirectUrl = null) {
+  if (errorTitleEl) errorTitleEl.textContent = title;
+  if (errorMessageEl) errorMessageEl.textContent = message;
+  errorRedirectUrl = redirectUrl;
+  errorModal?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeErrorModal() {
+  errorModal?.classList.remove('open');
+  document.body.style.overflow = '';
+  const redirect = errorRedirectUrl;
+  errorRedirectUrl = null;
+  if (redirect) window.location.href = redirect;
+}
+
 /* ============================================================
    PRICE CALCULATION
    ============================================================ */
@@ -120,6 +143,7 @@ async function fetchProduct() {
   } catch (err) {
     console.error('خطأ في جلب المنتج:', err);
     if (productNameEl) productNameEl.textContent = 'تعذّر تحميل بيانات المنتج.';
+    showErrorModal('تعذّر تحميل المنتج', err.message || 'حدث خطأ أثناء جلب بيانات المنتج.');
   } finally {
     if (loadingOverlay) loadingOverlay.style.display = 'none';
     recalculate();
@@ -129,15 +153,20 @@ async function fetchProduct() {
 /* ============================================================
    CHECK USER AUTHENTICATION
    ============================================================ */
-const loginLink = document.getElementById("loginLink");
-const registerLink = document.getElementById("regusiterLink");
 const usernameText = document.getElementById("usernameText");
 const links = document.getElementById("links");
 
 async function checkUser() {
   try {
     const token = localStorage.getItem("token");
-    if (!token) return window.location.href = "login.html";
+    if (!token) {
+      showErrorModal(
+        'يجب تسجيل الدخول أولاً',
+        'يجب عليك تسجيل الدخول أولاً حتى تتمكن من طلب المنتج.',
+        'login.html'
+      );
+      return;
+    }
 
     const res = await fetch("http://localhost:3000/api/auth/user", {
       method: "GET",
@@ -157,9 +186,15 @@ async function checkUser() {
       if(links) links.style.display = 'none';
     } else {
       localStorage.removeItem("token");
+      showErrorModal(
+        'انتهت الجلسة',
+        'يرجى تسجيل الدخول مرة أخرى للمتابعة.',
+        'login.html'
+      );
     }
   } catch (err) {
     console.error("Auth error:", err);
+    showErrorModal('خطأ في الاتصال', 'تعذر التحقق من حسابك. يرجى المحاولة لاحقاً.');
   }
 }
 
@@ -256,17 +291,17 @@ function validateForm() {
    PLACE ORDER (INTEGRATED WITH BACKEND)
    ============================================================ */
 const placeOrderBtn = document.getElementById('placeOrderBtn');
-const successModal  = document.getElementById('successModal');
 const orderNumberEl = document.getElementById('orderNumber');
 
 placeOrderBtn?.addEventListener('click', async () => {
   if (!validateForm()) {
     const firstInvalid = document.querySelector('input[style*="border-color"]');
     if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showErrorModal('بيانات غير مكتملة', 'يرجى إكمال جميع الحقول المطلوبة بشكل صحيح.');
     return;
   }
 
-  let selectedPaymentMethod = 'card'; // Default
+  let selectedPaymentMethod = 'card';
   const activePaymentTab = document.querySelector('.payment-tab.active');
   
   if (activePaymentTab) {
@@ -292,11 +327,19 @@ placeOrderBtn?.addEventListener('click', async () => {
     Payment_Method: selectedPaymentMethod
   };
 
-  placeOrderBtn.textContent = '⏳ جارٍ معالجة الطلب...';
+  placeOrderBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ معالجة الطلب...';
   placeOrderBtn.disabled = true;
 
   try {
     const token = localStorage.getItem("token");
+    if (!token) {
+      showErrorModal(
+        'يجب تسجيل الدخول أولاً',
+        'يرجى تسجيل الدخول قبل تأكيد الطلب.',
+        'login.html'
+      );
+      return;
+    }
 
     const response = await fetch('http://localhost:3000/api/order/', {
       method: 'POST',
@@ -315,12 +358,12 @@ placeOrderBtn?.addEventListener('click', async () => {
       successModal.classList.add('open');
       document.body.style.overflow = 'hidden';
     } else {
-      alert('فشل تأكيد الطلب: ' + (result.message || 'خطأ في الخادم'));
+      showErrorModal('فشل تأكيد الطلب', result.message || 'حدث خطأ في الخادم. يرجى المحاولة لاحقاً.');
     }
 
   } catch (error) {
     console.error('Fetch Error:', error);
-    alert('تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.');
+    showErrorModal('خطأ في الاتصال', 'تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.');
   } finally {
     placeOrderBtn.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -345,6 +388,11 @@ successModal?.addEventListener('click', (e) => {
     document.body.style.overflow = '';
     window.location.href = "../index.html"
   }
+});
+document.getElementById('closeModalError')?.addEventListener('click', closeErrorModal);
+
+errorModal?.addEventListener('click', (e) => {
+  if (e.target === errorModal) closeErrorModal();
 });
 
 const burgerBtn = document.getElementById('burger-btn');

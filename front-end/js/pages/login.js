@@ -1,29 +1,29 @@
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      document.body.classList.remove('page-loading');
-      document.body.classList.add('page-loaded');
-    }, 300);
-  });
-
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.body.classList.remove('page-loading');
+    document.body.classList.add('page-loaded');
+  }, 300);
+});
 const toggle = document.getElementById("toggle");
-      const html = document.documentElement;
+const html = document.documentElement;
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+  html.classList.add("dark");
+  toggle.checked = true;
+} else {
+  html.classList.remove("dark");
+  toggle.checked = false;
+}
 
-      if (localStorage.getItem("theme") === "dark") {
-        html.classList.add("dark");
-        if (toggle) toggle.checked = true;
-      }
-
-      if (toggle) {
-        toggle.addEventListener("change", function() {
-          if (this.checked) {
-            html.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-          } else {
-            html.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-          }
-        });
-      }
+toggle.addEventListener("change", function () {
+  if (this.checked) {
+    html.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+  } else {
+    html.classList.remove("dark");
+    localStorage.setItem("theme", "light");
+  }
+});
       
 const form = document.getElementById("loginForm");
 const email = document.getElementById("email");
@@ -31,11 +31,13 @@ const password = document.getElementById("password");
 const labelPassword = document.getElementById("labelPassword");
 const error = document.getElementById("error");
 const errorMessage = document.getElementById("errorMessage");
+
 let isGoogleUser = false;
+let googleIdToken = null;
 
 async function submitLoginForm() {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
+    const res = await fetch("http://localhost:3000/api/auth/login", { 
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -51,22 +53,14 @@ async function submitLoginForm() {
     const data = await res.json();
     console.log(data);
     if (data.success) {
-      const token = data.token || (data.user && data.user.token);
+      const token = data.token || (data.data && data.data.token) || (data.user && data.user.token);
       localStorage.setItem("token", token);
       window.location.replace("../index.html");
     } else {
       error.style.display = "block";
       email.style.borderColor = "#dc2626c2";
       if (password) password.style.borderColor = "#dc2626c2";
-
-      if (data.field === "email") {
-        errorMessage.innerHTML = `هنالك خطأ في الايميل او الباسورد <i class="fa-solid fa-triangle-exclamation"></i> `;
-      }
-
-      if (data.field === "password") {
-        errorMessage.innerHTML = `هنالك خطأ في الايميل او الباسورد <i class="fa-solid fa-triangle-exclamation"></i>`;
-        password.style.borderColor = "#dc2626c2";
-      }
+      errorMessage.innerHTML = `هنالك خطأ في الايميل او الباسورد <i class="fa-solid fa-triangle-exclamation"></i> `;
     }
   } catch (err) {
     console.error("حدث خطأ أثناء الاتصال بالسيرفر:", err);
@@ -93,7 +87,7 @@ form.addEventListener("submit", async function (e) {
   function validatePassword() {
     if (isGoogleUser) return true;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!passwordRegex.test(password.value.trim()) || password.value.trim() === "") {
+    if (password.value.trim() === "") {
       errorMessage.innerHTML = ` هنالك خطأ في الايميل او الباسورد <i class="fa-solid fa-triangle-exclamation"></i>`;
       password.style.borderColor = "#dc2626c2";
       return false;
@@ -129,6 +123,7 @@ window.onload = function () {
     });
   }
 };
+
 async function handleGoogleSuccess(accessToken) {
   fetch('http://localhost:3000/api/auth/google-data', {
     method: 'POST',
@@ -150,9 +145,7 @@ async function handleGoogleSuccess(accessToken) {
         
         isGoogleUser = true;
         googleIdToken = accessToken; 
-
-        await submitRegasterForm(); 
-        window.location.href = "./../index.html"
+        await submitLoginForm(); 
 
       } else {
         alert("فشل جلب بيانات جوجل: " + data.message);

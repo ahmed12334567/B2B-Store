@@ -123,6 +123,10 @@ buyButton.setAttribute("data-product-id", productId)
         }
       }
 
+      // Set product ID on add-to-cart button for cart.js
+      const addCartBtn = document.getElementById('btn-add-cart');
+      if (addCartBtn) addCartBtn.dataset.productId = productId;
+
       container.style.display = 'grid';
 
       // Trigger scroll/fade animation manually

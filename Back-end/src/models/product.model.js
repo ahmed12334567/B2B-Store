@@ -2,7 +2,7 @@ const pool = require("../config/db")
 
 const product = {
     getAllProduct: (callback) => {
-        const query = "SELECT * FROM products";
+        const query = "SELECT * FROM products ORDER BY product_id DESC";
         pool.query(query, callback)
     },
     getProductByID: (params, callback) => {

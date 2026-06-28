@@ -471,28 +471,35 @@ async function loadAllOrders() {
   }
 
 tbody.innerHTML = orders
-  .map(
-    (order, index) => `
-  <tr>
-    <td>${index + 1}</td> 
-    
-    <td>${order.name || "غير معروف"}</td>
-    
-    <td>${order.email || "—"}</td>
-    
-    <td>
-      <span class="status-badge status-${String(order.Order_Status).toLowerCase()}">
-        ${order.Order_Status || "معلق"}
-      </span>
-    </td>
-    
-    <td>${order.order_date ? new Date(order.order_date).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : "—"}</td>
-    
-    <td><span class="price-tag">$${order.Total_Amount || 0}</span></td>
-  </tr>`
-  )
+  .map((order, index) => {
+    const date = new Date(order.createAt);
+
+    const formatted = !isNaN(date)
+      ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`
+      : "—";
+
+    return `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${order.name || "غير معروف"}</td>
+        <td>${order.email || "—"}</td>
+        <td>
+          <span class="status-badge status-${String(order.Order_Status).toLowerCase()}">
+            ${order.Order_Status || "معلق"}
+          </span>
+        </td>
+        <td>${formatted}</td>
+        <td><span class="price-tag">$${order.Total_Amount || 0}</span></td>
+      </tr>
+    `;
+  })
   .join("");
 }
+// reload orders
+const rBtn = document.getElementById("refreshOrdersBtn")
+rBtn.addEventListener("click", () =>{
+  loadAllOrders()
+})
 let selectedProductImageBase64 = "";
 
 function initAddProductFeature() {
@@ -672,11 +679,8 @@ async function handleAddProductSubmit(e) {
     if (errorEl) errorEl.style.display = "none";
   }
 
-  // إذا كانت المدخلات غير صالحة نوقف الدالة هنا
   if (!isValid) return;
 
-  // 1. 🌟 هنا نضع كود بدء التحميل وتعطيل الزر (بمجرد تخطي التحقق)
-  // تأكد أن الـ id في الـ HTML لزر الإرسال هو "submitBtnId" أو قم بتغييره هنا ليطابقه
   const submitBtn = document.getElementById("submitBtnId") || e.target.querySelector('button[type="submit"]'); 
   if (submitBtn) {
     submitBtn.disabled = true;
@@ -710,8 +714,6 @@ async function handleAddProductSubmit(e) {
     if (!res.ok) {
       throw new Error(result.message || "حدث خطأ أثناء إضافة المنتج");
     }
-
-    console.log("تم إضافة المنتج بنجاح:", result);
     showToast("تم إنشاء المنتج بنجاح في قاعدة البيانات!", "success");
 
     closeAddProductModal();
@@ -729,7 +731,6 @@ async function handleAddProductSubmit(e) {
     console.error("فشل الاتصال بالسيرفر:", err);
     showToast(err.message || "فشل جلب البيانات من السيرفر", "danger");
   } finally {
-    // 2. 🌟 هنا كود إنهاء التحميل وإرجاع الزر لطبيعته (يعمل في حالتي النجاح أو الفشل)
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'إضافة المنتج';

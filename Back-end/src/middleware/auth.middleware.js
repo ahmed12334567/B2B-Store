@@ -1,6 +1,8 @@
 const {body, validationResult} = require("express-validator")
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const loginValidation = [
+const validationLogin = [
   body("email")
     .notEmpty()
     .isEmail()
@@ -30,4 +32,26 @@ body("password")
     next();
   }
 ];
-module.exports = loginValidation
+let JWT_SECRET = process.env.JWT_SECRET;
+const verifyUser = 
+function verifyUserf(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: "Token is required" });
+    }
+    // if(token === "test_token"){
+    //     next()
+    // }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ success: false, message: "Invalid or expired token" });
+        }
+        req.userEmail = decoded.email;
+        req.userId = decoded.id;
+        next();
+    });
+}
+module.exports = {validationLogin, verifyUser}

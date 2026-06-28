@@ -250,7 +250,7 @@
               <input type="text" id="address" placeholder="شارع التحرير، بجوار ..." required />
             </div>
             <div class="form-group full-width">
-              <label for="phone">العنوان</label>
+              <label for="phone">رقم الهاتف (للتوصيل والتأكيد)</label>
               <input type="text" id="phone" placeholder="0123456789" required />
             </div>
             <div class="form-group">
@@ -428,6 +428,21 @@
       <p>رقم الطلب: <strong id="orderNumber">#ORD-00001</strong></p>
       <p>سيتم التواصل معك قريباً لتأكيد التفاصيل.</p>
       <button class="modal-close-btn" id="closeModal">حسناً، شكراً!</button>
+    </div>
+  </div>
+  <!-- ===== ERROR MODAL ===== -->
+  <div class="modal-overlay" id="errorModal">
+    <div class="modal-box">
+      <div class="modal-icon error">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#f87171"
+          stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <h3 id="errorTitle">حدث خطأ</h3>
+      <p id="errorMessage">يرجى المحاولة مرة أخرى.</p>
+      <button class="modal-close-btn" id="closeModalError">حسناً</button>
     </div>
   </div>
 

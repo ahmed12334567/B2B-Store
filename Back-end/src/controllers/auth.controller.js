@@ -70,7 +70,8 @@ router.post("/register", async (req, res) => {
                     password: finalPassword,
                     address: location,
                     phone: phone,
-                    isGoogleUser: isGoogleUser
+                    isGoogleUser: isGoogleUser,
+                    role: "customer"
                 };
                 console.log(userData);
                 
@@ -82,7 +83,7 @@ router.post("/register", async (req, res) => {
                     }
 
                     const token = jwt.sign(
-                        { id: userData.user_id, email: userData.email },
+                        { id: result.insertId, email: userData.email },
                         JWT_SECRET,
                         { expiresIn: "7d" }
                     );
@@ -262,11 +263,11 @@ router.get("/user", (req, res) => {
     }
 })
 
-router.post("/login/admin", async (req, res) =>{
+router.post("/login/admin",  (req, res) =>{
     try{
     const email = req.body?.email?.trim()
     const password = req.body?.password?.trim()
-    user.findByEmail(email, (error, result) =>{
+    user.findByEmail(email, async (error, result) =>{
         if(error){
             console.log("DB Error: ", error);
             return res.status(500).json({success: false, data:{message:"server error"}})
@@ -275,12 +276,12 @@ router.post("/login/admin", async (req, res) =>{
         if(!user){
             return res.status(400).json({success: false, data:{message:"User not found"}})
         }
-        let comparePassword = user.password_user
-        if(comparePassword !== password){
+        let comparePassword = await bcrypt.compare(password, user.password_user)
+        if(!comparePassword){
             return res.status(400).json({success: false, data:{message:"Wrong Email or Password"}})
         }
         if(user.role !== "admin"){
-            return res.status(400).json({success: false, data:{message:"Wrong Email or Password"}})
+            return res.status(400).json({success: false, data:{message:"Wrong  or Password"}})
         }
         else{
             const token = jwt.sign(

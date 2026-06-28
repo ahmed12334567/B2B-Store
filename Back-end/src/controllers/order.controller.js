@@ -2,30 +2,7 @@ const express = require("express");
 const router = express.Router();
 const orderModel = require("../models/order.model")
 const orderMiddleware = require("../middleware/order.middleware")
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const JWT_SECRET = process.env.JWT_SECRET;
-
-function verifyUser(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-
-    if (!token) {
-        return res.status(401).json({ success: false, message: "Token is required" });
-    }
-    // if(token === "test_token"){
-    //     next()
-    // }
-
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ success: false, message: "Invalid or expired token" });
-        }
-        req.userEmail = decoded.email;
-        req.userId = decoded.id;
-        next();
-    });
-}
+const {verifyUser} = require("../middleware/auth.middleware")
 
 router.post("/", verifyUser, orderMiddleware, (req, res) => {
     try {
@@ -42,7 +19,6 @@ router.post("/", verifyUser, orderMiddleware, (req, res) => {
             Total_Amount: amount,
             user_id: userId
         }
-        console.log(userEmail, userId);
         
         orderModel.createOrder(newOrder, (error, result) =>{
             if(error){
@@ -51,6 +27,7 @@ router.post("/", verifyUser, orderMiddleware, (req, res) => {
             }
             if(result){
                 const orderId = result.insertId
+                const orderTime = result.createAt
                 newOrderDeltils = {
                     order_id: orderId,
                     email: userEmail,
@@ -70,14 +47,13 @@ router.post("/", verifyUser, orderMiddleware, (req, res) => {
                         Payment_Method: Payment_Method,
                         order_id: orderId
                     }
-                    console.log(newPayment);
                     
                 orderModel.createPayment(newPayment, (error, result) =>{
                 if(error){
                     console.log("DB Error: ", error);
                     return res.status(500).json({ success: false, message: "Internal server error" });
                 }
-                const finalOrder = {...newOrder,...newOrderDeltils,...newPayment}
+                const finalOrder = {...newOrder,...newOrderDeltils,...newPayment,...orderTime}
                 if(result){
                     return res.status(201).json({success: true, data:{message:"order create successfuly", order:finalOrder}})
                 }

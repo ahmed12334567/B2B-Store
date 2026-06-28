@@ -92,6 +92,10 @@ fetch("http://localhost:3000/api/products/")
 
       card.href = `pages/product.html?id=${product.product_id}`;
 
+      // Set data-product-id on the wrapper so cart.js can read it
+      const wrapper = card.closest(".product-wrapper") || card;
+      wrapper.dataset.productId = product.product_id;
+
       card.querySelector("img").src = product.imgURL;
       card.querySelector("img").alt = product.product_name;
 
@@ -105,10 +109,24 @@ fetch("http://localhost:3000/api/products/")
         const originalPrice = Number(product.price);
         const discountedPrice = originalPrice + (originalPrice * 20 / 100);
       card.querySelector(".price-old").textContent =
-      `${discountedPrice}`
+      `${discountedPrice}$`;
+    });
+
+    // Re-attach cart button listeners now that data-product-id is set
+    document.querySelectorAll(".btn-cart").forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const wrapper = btn.closest("[data-product-id]");
+        const productId = wrapper ? parseInt(wrapper.dataset.productId, 10) : null;
+        if (productId && window.cartAPI) {
+          await window.cartAPI.addToCart(productId, btn);
+        }
+      });
     });
   })
   .catch(err => console.error(err));
+
 
 const burgerBtn = document.getElementById("burger-btn");
 const navbarCollapse = document.getElementById("navbar-collapse");

@@ -27,6 +27,9 @@ app.use("/api/order", orderRout)
 const dashboardRoutes = require("../src/routes/dashboard.routes.js")
 app.use("/api/dashboard", dashboardRoutes)
 
+const cartRoutes = require("../src/routes/cart.routes.js")
+app.use("/api/cart", cartRoutes)
+
 // ===== JSON Parse Error Handler =====
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {

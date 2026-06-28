@@ -1,5 +1,6 @@
 const {body, validationResult} = require("express-validator")
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const loginValidation = [
     body("email")
     .notEmpty()
@@ -50,4 +51,26 @@ const createProduct = [
   }
 
 ]
-module.exports = {loginValidation , createProduct}
+let JWT_SECRET = process.env.JWT_SECRET;
+const verifyAdmin = 
+function verifyAdminf(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: "Token is required" });
+    }
+    // if(token === "test_token"){
+    //     next()
+    // }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ success: false, message: "Invalid or expired token" });
+        }
+        req.adminEmail = decoded.email;
+        req.adminId = decoded.id;
+        next();
+    });
+}
+module.exports = {loginValidation , createProduct, verifyAdmin}

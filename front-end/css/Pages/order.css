@@ -19,16 +19,16 @@
   --bg-secondary:  #131629;
   --bg-card:       #181b2e;
   --bg-input:      #0f1120;
-  --accent:        #7c6af0;
-  --accent-dark:   #6556e0;
-  --accent-glow:   rgba(124,106,240,0.22);
-  --accent-hover:  rgba(124,106,240,0.12);
+  --accent:        #6366f1;
+  --accent-dark:   #4f46e5;
+  --accent-glow:   rgba(99, 102, 241, 0.22);
+  --accent-hover:  rgba(99, 102, 241, 0.12);
   --price-green:   #4ade80;
   --text-primary:  #e8eaf6;
   --text-muted:    #6e738c;
   --text-dim:      #9da3bb;
   --border:        rgba(255,255,255,0.06);
-  --border-focus:  rgba(124,106,240,0.5);
+  --border-focus:  rgba(99, 102, 241, 0.5);
   --danger:        #f87171;
   --success:       #4ade80;
   --radius-sm:     8px;
@@ -461,8 +461,8 @@ body {
   border: none;
   color: var(--text-dim);
   font-size: 1.2rem;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   transition: var(--transition);
   display: flex;
@@ -483,7 +483,7 @@ body {
   color: var(--text-primary);
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
-  height: 34px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -882,6 +882,10 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
+}
+
+.modal-icon.error {
+  background: rgba(248,113,113,0.12);
 }
 
 .modal-box h3 {
