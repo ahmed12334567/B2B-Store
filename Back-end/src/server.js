@@ -14,20 +14,19 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
-const authRoutes = require("../src/routes/auth.routes.js")
+const authRoutes = require("./routes/auth.routes.js")
 app.use("/api/auth", authRoutes)
 
-const productRoutes = require("../src/routes/product.routes.js")
+const productRoutes = require("./routes/product.routes.js")
 app.use("/api/products", productRoutes)
 
-const orderRout = require("../src/routes/order.routes.js")
+const orderRout = require("./routes/order.routes.js")
 app.use("/api/order", orderRout)
 
-const dashboardRoutes = require("../src/routes/dashboard.routes.js")
+const dashboardRoutes = require("./routes/dashboard.routes.js")
 app.use("/api/dashboard", dashboardRoutes)
 
-const cartRoutes = require("../src/routes/cart.routes.js")
+const cartRoutes = require("./routes/cart.routes.js")
 app.use("/api/cart", cartRoutes)
 
 // ===== JSON Parse Error Handler =====
