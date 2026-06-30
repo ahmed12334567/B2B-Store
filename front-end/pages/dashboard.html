@@ -1,505 +1,590 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم — إدارة المتجر</title>
-    <meta name="description" content="لوحة تحكم إدارة المتجر الإلكتروني">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - B2B Store</title>
+  <meta name="description" content="لوحة تحكم إدارة المتجر الإلكتروني">
 
-    <!-- Icons -->
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-    <!-- Dashboard Styles -->
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/main.css">
-  </head>
-  <body class="page-loading" dir="rtl">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Sidebar overlay (mobile) -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <!-- Dashboard Styles -->
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
 
-    <div class="dashboard-layout">
+<body class="page-loading" dir="rtl">
 
-      <!-- ========== SIDEBAR ========== -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-logo">
-            <i class="fa-solid fa-crown"></i>
-          </div>
-          <div class="sidebar-brand">
-            <span class="sidebar-brand-name">Shop</span>
-            <span class="sidebar-brand-label">لوحة التحكم</span>
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="dashboard-layout">
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-crown"></i>
+        </div>
+        <div class="sidebar-brand">
+          <span class="sidebar-brand-name">Shop</span>
+          <span class="sidebar-brand-label">لوحة التحكم</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">القائمة الرئيسية</span>
+
+        <a href="#" class="sidebar-link active" data-page="overview" id="nav-overview">
+          <i class="fa-solid fa-house"></i>
+          <span>نظرة عامة</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="users" id="nav-users">
+          <i class="fa-solid fa-users"></i>
+          <span>المستخدمون</span>
+          <span class="badge" id="usersBadge" style="display:none;">0</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="products" id="nav-products">
+          <i class="fa-solid fa-box-open"></i>
+          <span>المنتجات</span>
+        </a>
+        <a href="#" class="sidebar-link" data-page="orders" id="nav-orders">
+          <i class="fa-solid fa-receipt"></i>
+          <span>الطلبات</span>
+        </a>
+
+        <span class="sidebar-section-title">الإعدادات</span>
+
+        <a href="#" class="sidebar-link" data-page="settings" id="nav-settings">
+          <i class="fa-solid fa-gear"></i>
+          <span>الإعدادات</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link" id="logoutBtn">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>تسجيل الخروج</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <div class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <button class="sidebar-toggle" id="sidebarToggle" aria-label="القائمة">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div>
+            <h1 class="topbar-title" id="pageTitle">نظرة عامة</h1>
           </div>
         </div>
-
-        <nav class="sidebar-nav">
-          <span class="sidebar-section-title">القائمة الرئيسية</span>
-
-          <a href="#" class="sidebar-link active" data-page="overview" id="nav-overview">
-            <i class="fa-solid fa-house"></i>
-            <span>نظرة عامة</span>
-          </a>
-          <a href="#" class="sidebar-link" data-page="users" id="nav-users">
-            <i class="fa-solid fa-users"></i>
-            <span>المستخدمون</span>
-            <span class="badge" id="usersBadge" style="display:none;">0</span>
-          </a>
-          <a href="#" class="sidebar-link" data-page="products" id="nav-products">
-            <i class="fa-solid fa-box-open"></i>
-            <span>المنتجات</span>
-          </a>
-          <a href="#" class="sidebar-link" data-page="orders" id="nav-orders">
-            <i class="fa-solid fa-receipt"></i>
-            <span>الطلبات</span>
-          </a>
-
-          <span class="sidebar-section-title">الإعدادات</span>
-
-          <a href="#" class="sidebar-link" data-page="settings" id="nav-settings">
-            <i class="fa-solid fa-gear"></i>
-            <span>الإعدادات</span>
-          </a>
-        </nav>
-
-        <div class="sidebar-footer">
-          <a href="#" class="sidebar-link" id="logoutBtn">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            <span>تسجيل الخروج</span>
-          </a>
-        </div>
-      </aside>
-
-      <!-- ========== MAIN CONTENT ========== -->
-      <div class="main-content">
-
-        <!-- Top Bar -->
-        <header class="topbar">
-          <div class="topbar-right">
-            <button class="sidebar-toggle" id="sidebarToggle" aria-label="القائمة">
-              <i class="fa-solid fa-bars"></i>
-            </button>
-            <div>
-              <h1 class="topbar-title" id="pageTitle">نظرة عامة</h1>
-            </div>
-          </div>
-          <div class="topbar-left">
-            <!-- Theme Toggle -->
-            <div class="theme-toggle-wrapper">
-              <label id="theme-toggle-button">
-                <input type="checkbox" id="toggle">
-                <svg viewBox="0 0 69.667 44" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-                  <g transform="translate(3.5 3.5)" data-name="Component 15 – 1" id="Component_15_1">
-                    <g filter="url(#container)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
-                      <rect fill="#83cbd8" transform="translate(3.5 3.5)" rx="17.5" height="35" width="60.667" data-name="container" id="container"></rect>
-                    </g>
-                    <g transform="translate(2.333 2.333)" id="button">
-                      <g data-name="sun" id="sun">
-                        <g filter="url(#sun-outer)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
-                          <circle fill="#f8e664" transform="translate(5.83 5.83)" r="15.167" cy="15.167" cx="15.167" data-name="sun-outer" id="sun-outer-2"></circle>
-                        </g>
-                        <g filter="url(#sun)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
-                          <path fill="rgba(246,254,247,0.29)" transform="translate(9.33 9.33)" d="M11.667,0A11.667,11.667,0,1,1,0,11.667,11.667,11.667,0,0,1,11.667,0Z" data-name="sun" id="sun-3"></path>
-                        </g>
-                        <circle fill="#fcf4b9" transform="translate(8.167 8.167)" r="7" cy="7" cx="7" id="sun-inner"></circle>
+        <div class="topbar-left">
+          <!-- Theme Toggle -->
+          <div class="theme-toggle-wrapper">
+            <label id="theme-toggle-button">
+              <input type="checkbox" id="toggle">
+              <svg viewBox="0 0 69.667 44" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(3.5 3.5)" data-name="Component 15 – 1" id="Component_15_1">
+                  <g filter="url(#container)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                    <rect fill="#83cbd8" transform="translate(3.5 3.5)" rx="17.5" height="35" width="60.667"
+                      data-name="container" id="container"></rect>
+                  </g>
+                  <g transform="translate(2.333 2.333)" id="button">
+                    <g data-name="sun" id="sun">
+                      <g filter="url(#sun-outer)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                        <circle fill="#f8e664" transform="translate(5.83 5.83)" r="15.167" cy="15.167" cx="15.167"
+                          data-name="sun-outer" id="sun-outer-2"></circle>
                       </g>
-                      <g data-name="moon" id="moon">
-                        <g filter="url(#moon)" transform="matrix(1, 0, 0, 1, -31.5, -5.83)">
-                          <circle fill="#cce6ee" transform="translate(31.5 5.83)" r="15.167" cy="15.167" cx="15.167" data-name="moon" id="moon-3"></circle>
-                        </g>
-                        <g fill="#a6cad0" transform="translate(-24.415 -1.009)" id="patches">
-                          <circle transform="translate(43.009 4.496)" r="2" cy="2" cx="2"></circle>
-                          <circle transform="translate(39.366 17.952)" r="2" cy="2" cx="2" data-name="patch"></circle>
-                          <circle transform="translate(33.016 8.044)" r="1" cy="1" cx="1" data-name="patch"></circle>
-                          <circle transform="translate(51.081 18.888)" r="1" cy="1" cx="1" data-name="patch"></circle>
-                          <circle transform="translate(33.016 22.503)" r="1" cy="1" cx="1" data-name="patch"></circle>
-                          <circle transform="translate(50.081 10.53)" r="1.5" cy="1.5" cx="1.5" data-name="patch"></circle>
-                        </g>
+                      <g filter="url(#sun)" transform="matrix(1, 0, 0, 1, -5.83, -5.83)">
+                        <path fill="rgba(246,254,247,0.29)" transform="translate(9.33 9.33)"
+                          d="M11.667,0A11.667,11.667,0,1,1,0,11.667,11.667,11.667,0,0,1,11.667,0Z" data-name="sun"
+                          id="sun-3"></path>
                       </g>
+                      <circle fill="#fcf4b9" transform="translate(8.167 8.167)" r="7" cy="7" cx="7" id="sun-inner">
+                      </circle>
                     </g>
-                    <g filter="url(#cloud)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
-                      <path fill="#fff" transform="translate(-3466.47 -160.94)" d="M3512.81,173.815a4.463,4.463,0,0,1,2.243.62.95.95,0,0,1,.72-1.281,4.852,4.852,0,0,1,2.623.519c.034.02-.5-1.968.281-2.716a2.117,2.117,0,0,1,2.829-.274,1.821,1.821,0,0,1,.854,1.858c.063.037,2.594-.049,3.285,1.273s-.865,2.544-.807,2.626a12.192,12.192,0,0,1,2.278.892c.553.448,1.106,1.992-1.62,2.927a7.742,7.742,0,0,1-3.762-.3c-1.28-.49-1.181-2.65-1.137-2.624s-1.417,2.2-2.623,2.2a4.172,4.172,0,0,1-2.394-1.206,3.825,3.825,0,0,1-2.771.774c-3.429-.46-2.333-3.267-2.2-3.55A3.721,3.721,0,0,13512.81,173.815Z" data-name="cloud" id="cloud"></path>
-                    </g>
-                    <g fill="#def8ff" transform="translate(3.585 1.325)" id="stars">
-                      <path transform="matrix(-1, 0.017, -0.017, -1, 24.231, 3.055)" d="M.774,0,.566.559,0,.539.458.933.25,1.492l.485-.361.458.394L1.024.953,1.509.592.943.572Z"></path>
-                      <path transform="matrix(-0.777, 0.629, -0.629, -0.777, 23.185, 12.358)" d="M1.341.529.836.472.736,0,.505.46,0,.4.4.729l-.231.46L.605.932l.4.326L.9.786Z" data-name="star"></path>
-                      <path transform="matrix(0.438, 0.899, -0.899, 0.438, 23.177, 29.735)" d="M.015,1.065.475.9l.285.365L.766.772l.46-.164L.745.494.751,0,.481.407,0,.293.285.658Z" data-name="star"></path>
-                      <path transform="translate(12.677 0.388) rotate(104)" d="M1.161,1.6,1.059,1,1.574.722.962.607.86,0,.613.572,0,.457.446.881.2,1.454l.516-.274Z" data-name="star"></path>
-                      <path transform="matrix(-0.07, 0.998, -0.998, -0.07, 11.066, 15.457)" d="M.873,1.648l.114-.62L1.579.945,1.03.62,1.144,0,.706.464.157.139.438.7,0,1.167l.592-.083Z" data-name="star"></path>
-                      <path transform="translate(8.326 28.061) rotate(11)" d="M.593,0,.638.724,0,.982l.7.211.045.724.36-.64.7.211L1.342.935,1.7.294,1.063.552Z" data-name="star"></path>
-                      <path transform="translate(5.012 5.962) rotate(172)" d="M.816,0,.5.455,0,.311.323.767l-.312.455.516-.215.323.456L.827.911,1.343.7.839.552Z" data-name="star"></path>
-                      <path transform="translate(2.218 14.616) rotate(169)" d="M1.261,0,.774.571.114.3.487.967,0,1.538.728,1.32l.372.662.047-.749.728-.218L1.215.749Z" data-name="star"></path>
+                    <g data-name="moon" id="moon">
+                      <g filter="url(#moon)" transform="matrix(1, 0, 0, 1, -31.5, -5.83)">
+                        <circle fill="#cce6ee" transform="translate(31.5 5.83)" r="15.167" cy="15.167" cx="15.167"
+                          data-name="moon" id="moon-3"></circle>
+                      </g>
+                      <g fill="#a6cad0" transform="translate(-24.415 -1.009)" id="patches">
+                        <circle transform="translate(43.009 4.496)" r="2" cy="2" cx="2"></circle>
+                        <circle transform="translate(39.366 17.952)" r="2" cy="2" cx="2" data-name="patch"></circle>
+                        <circle transform="translate(33.016 8.044)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                        <circle transform="translate(51.081 18.888)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                        <circle transform="translate(33.016 22.503)" r="1" cy="1" cx="1" data-name="patch"></circle>
+                        <circle transform="translate(50.081 10.53)" r="1.5" cy="1.5" cx="1.5" data-name="patch">
+                        </circle>
+                      </g>
                     </g>
                   </g>
-                </svg>
-              </label>
+                  <g filter="url(#cloud)" transform="matrix(1, 0, 0, 1, -3.5, -3.5)">
+                    <path fill="#fff" transform="translate(-3466.47 -160.94)"
+                      d="M3512.81,173.815a4.463,4.463,0,0,1,2.243.62.95.95,0,0,1,.72-1.281,4.852,4.852,0,0,1,2.623.519c.034.02-.5-1.968.281-2.716a2.117,2.117,0,0,1,2.829-.274,1.821,1.821,0,0,1,.854,1.858c.063.037,2.594-.049,3.285,1.273s-.865,2.544-.807,2.626a12.192,12.192,0,0,1,2.278.892c.553.448,1.106,1.992-1.62,2.927a7.742,7.742,0,0,1-3.762-.3c-1.28-.49-1.181-2.65-1.137-2.624s-1.417,2.2-2.623,2.2a4.172,4.172,0,0,1-2.394-1.206,3.825,3.825,0,0,1-2.771.774c-3.429-.46-2.333-3.267-2.2-3.55A3.721,3.721,0,0,13512.81,173.815Z"
+                      data-name="cloud" id="cloud"></path>
+                  </g>
+                  <g fill="#def8ff" transform="translate(3.585 1.325)" id="stars">
+                    <path transform="matrix(-1, 0.017, -0.017, -1, 24.231, 3.055)"
+                      d="M.774,0,.566.559,0,.539.458.933.25,1.492l.485-.361.458.394L1.024.953,1.509.592.943.572Z">
+                    </path>
+                    <path transform="matrix(-0.777, 0.629, -0.629, -0.777, 23.185, 12.358)"
+                      d="M1.341.529.836.472.736,0,.505.46,0,.4.4.729l-.231.46L.605.932l.4.326L.9.786Z" data-name="star">
+                    </path>
+                    <path transform="matrix(0.438, 0.899, -0.899, 0.438, 23.177, 29.735)"
+                      d="M.015,1.065.475.9l.285.365L.766.772l.46-.164L.745.494.751,0,.481.407,0,.293.285.658Z"
+                      data-name="star"></path>
+                    <path transform="translate(12.677 0.388) rotate(104)"
+                      d="M1.161,1.6,1.059,1,1.574.722.962.607.86,0,.613.572,0,.457.446.881.2,1.454l.516-.274Z"
+                      data-name="star"></path>
+                    <path transform="matrix(-0.07, 0.998, -0.998, -0.07, 11.066, 15.457)"
+                      d="M.873,1.648l.114-.62L1.579.945,1.03.62,1.144,0,.706.464.157.139.438.7,0,1.167l.592-.083Z"
+                      data-name="star"></path>
+                    <path transform="translate(8.326 28.061) rotate(11)"
+                      d="M.593,0,.638.724,0,.982l.7.211.045.724.36-.64.7.211L1.342.935,1.7.294,1.063.552Z"
+                      data-name="star"></path>
+                    <path transform="translate(5.012 5.962) rotate(172)"
+                      d="M.816,0,.5.455,0,.311.323.767l-.312.455.516-.215.323.456L.827.911,1.343.7.839.552Z"
+                      data-name="star"></path>
+                    <path transform="translate(2.218 14.616) rotate(169)"
+                      d="M1.261,0,.774.571.114.3.487.967,0,1.538.728,1.32l.372.662.047-.749.728-.218L1.215.749Z"
+                      data-name="star"></path>
+                  </g>
+                </g>
+              </svg>
+            </label>
+          </div>
+
+          <div class="topbar-avatar" id="adminAvatar" title="المسؤول">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content Container -->
+      <div class="dashboard-content" id="dashboardContent">
+
+        <!-- ===== OVERVIEW PAGE ===== -->
+        <div class="page-section active" id="page-overview">
+
+          <!-- Welcome Banner -->
+          <div class="welcome-banner animate-in">
+            <h2>مرحباً بك في لوحة التحكم </h2>
+            <p>إليك ملخص سريع لأداء متجرك اليوم</p>
+            <div class="welcome-time" id="currentTime"></div>
+          </div>
+
+          <!-- Stat Cards -->
+          <div class="stats-grid">
+            <div class="stat-card primary animate-in" id="statUsers">
+              <div class="stat-icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">إجمالي المستخدمين</div>
+                <div class="stat-value" id="totalUsersCount">
+                  <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
+                </div>
+              </div>
             </div>
 
-            <div class="topbar-avatar" id="adminAvatar" title="المسؤول">
-              <i class="fa-solid fa-user-shield"></i>
+            <div class="stat-card success animate-in" id="statProducts">
+              <div class="stat-icon">
+                <i class="fa-solid fa-box-open"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">إجمالي المنتجات</div>
+                <div class="stat-value" id="totalProductsCount">
+                  <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-card accent animate-in" id="statOrders">
+              <div class="stat-icon">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">إجمالي الطلبات</div>
+                <div class="stat-value" id="totalOrdersCount">
+                  <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-card info animate-in">
+              <div class="stat-icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div class="stat-info">
+                <div class="stat-label">حالة المتجر</div>
+                <div class="stat-value" style="font-size:1.2rem; color: var(--success);">
+                  <i class="fa-solid fa-circle"
+                    style="font-size:0.6rem; vertical-align:middle; margin-left:0.4rem;"></i>
+                  نشط
+                </div>
+              </div>
             </div>
           </div>
-        </header>
 
-        <!-- Dashboard Content Container -->
-        <div class="dashboard-content" id="dashboardContent">
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button class="quick-action-btn" id="quickAddProductBtn">
+              <i class="fa-solid fa-plus"></i>
+              إضافة منتج جديد
+            </button>
+              <button class="quick-action-btn" id="openAddProductFileBtn">
+                <i class="fa-solid fa-plus"></i>
+                إضافة ملف منتجات جديد
+              </button>
+            <button class="quick-action-btn" onclick="navigateTo('users')">
+              <i class="fa-solid fa-user-plus"></i>
+              عرض المستخدمين
+            </button>
+            <button class="quick-action-btn" onclick="navigateTo('products')">
+              <i class="fa-solid fa-box-open"></i>
+              عرض المنتجات
+            </button>
+            <button class="quick-action-btn" onclick="navigateTo('orders')">
+              <i class="fa-solid fa-list-check"></i>
+              عرض الطلبات
+            </button>
+          </div>
 
-          <!-- ===== OVERVIEW PAGE ===== -->
-          <div class="page-section active" id="page-overview">
+          <!-- Recent Data Tables -->
+          <div class="data-grid">
 
-            <!-- Welcome Banner -->
-            <div class="welcome-banner animate-in">
-              <h2>مرحباً بك في لوحة التحكم </h2>
-              <p>إليك ملخص سريع لأداء متجرك اليوم</p>
-              <div class="welcome-time" id="currentTime"></div>
-            </div>
-
-            <!-- Stat Cards -->
-            <div class="stats-grid">
-              <div class="stat-card primary animate-in" id="statUsers">
-                <div class="stat-icon">
+            <!-- Recent Users -->
+            <div class="data-card animate-in">
+              <div class="data-card-header">
+                <h3 class="data-card-title">
                   <i class="fa-solid fa-users"></i>
-                </div>
-                <div class="stat-info">
-                  <div class="stat-label">إجمالي المستخدمين</div>
-                  <div class="stat-value" id="totalUsersCount">
-                    <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
-                  </div>
-                </div>
+                  أحدث المستخدمين
+                </h3>
+                <span class="data-card-action" onclick="navigateTo('users')">عرض الكل</span>
               </div>
-
-              <div class="stat-card success animate-in" id="statProducts">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-box-open"></i>
-                </div>
-                <div class="stat-info">
-                  <div class="stat-label">إجمالي المنتجات</div>
-                  <div class="stat-value" id="totalProductsCount">
-                    <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="stat-card accent animate-in" id="statOrders">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-receipt"></i>
-                </div>
-                <div class="stat-info">
-                  <div class="stat-label">إجمالي الطلبات</div>
-                  <div class="stat-value" id="totalOrdersCount">
-                    <div class="skeleton skeleton-text" style="width:60px; height:28px;"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="stat-card info animate-in">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <div class="stat-info">
-                  <div class="stat-label">حالة المتجر</div>
-                  <div class="stat-value" style="font-size:1.2rem; color: var(--success);">
-                    <i class="fa-solid fa-circle" style="font-size:0.6rem; vertical-align:middle; margin-left:0.4rem;"></i>
-                    نشط
-                  </div>
-                </div>
+              <div class="data-card-body">
+                <table class="dashboard-table">
+                  <thead>
+                    <tr>
+                      <th>المستخدم</th>
+                      <th>البريد</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentUsersTable">
+                    <tr>
+                      <td colspan="2">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-              <button class="quick-action-btn" id="quickAddProductBtn">
+            <!-- Recent Products -->
+            <div class="data-card animate-in">
+              <div class="data-card-header">
+                <h3 class="data-card-title">
+                  <i class="fa-solid fa-box-open"></i>
+                  أحدث المنتجات
+                </h3>
+                <span class="data-card-action" onclick="navigateTo('products')">عرض الكل</span>
+              </div>
+              <div class="data-card-body">
+                <table class="dashboard-table">
+                  <thead>
+                    <tr>
+                      <th>المنتج</th>
+                      <th>السعر</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentProductsTable">
+                    <tr>
+                      <td colspan="2">
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===== USERS PAGE ===== -->
+        <div class="page-section" id="page-users" style="display:none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 class="data-card-title">
+                <i class="fa-solid fa-users"></i>
+                جميع المستخدمين
+              </h3>
+            </div>
+            <div class="data-card-body">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>المستخدم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>الهاتف</th>
+                    <th>الدور</th>
+                  </tr>
+                </thead>
+                <tbody id="allUsersTable">
+                  <tr>
+                    <td colspan="5">
+                      <div class="skeleton skeleton-text"></div>
+                      <div class="skeleton skeleton-text short"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== PRODUCTS PAGE ===== -->
+        <div class="page-section" id="page-products" style="display:none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 class="data-card-title">
+                <i class="fa-solid fa-box-open"></i>
+                جميع المنتجات
+              </h3>
+              <button class="quick-action-btn" id="openAddProductBtn">
                 <i class="fa-solid fa-plus"></i>
                 إضافة منتج جديد
               </button>
-              <button class="quick-action-btn" onclick="navigateTo('users')">
-                <i class="fa-solid fa-user-plus"></i>
-                عرض المستخدمين
-              </button>
-              <button class="quick-action-btn" onclick="navigateTo('products')">
-                <i class="fa-solid fa-box-open"></i>
-                عرض المنتجات
-              </button>
-              <button class="quick-action-btn" onclick="navigateTo('orders')">
-                <i class="fa-solid fa-list-check"></i>
-                عرض الطلبات
+              <button class="quick-action-btn" id="openAddFileProductBtn">
+                <i class="fa-solid fa-plus"></i>
+                إضافة ملف منتجات جديد
               </button>
             </div>
-
-            <!-- Recent Data Tables -->
-            <div class="data-grid">
-
-              <!-- Recent Users -->
-              <div class="data-card animate-in">
-                <div class="data-card-header">
-                  <h3 class="data-card-title">
-                    <i class="fa-solid fa-users"></i>
-                    أحدث المستخدمين
-                  </h3>
-                  <span class="data-card-action" onclick="navigateTo('users')">عرض الكل</span>
-                </div>
-                <div class="data-card-body">
-                  <table class="dashboard-table">
-                    <thead>
-                      <tr>
-                        <th>المستخدم</th>
-                        <th>البريد</th>
-                      </tr>
-                    </thead>
-                    <tbody id="recentUsersTable">
-                      <tr>
-                        <td colspan="2">
-                          <div class="skeleton skeleton-text"></div>
-                          <div class="skeleton skeleton-text short"></div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Recent Products -->
-              <div class="data-card animate-in">
-                <div class="data-card-header">
-                  <h3 class="data-card-title">
-                    <i class="fa-solid fa-box-open"></i>
-                    أحدث المنتجات
-                  </h3>
-                  <span class="data-card-action" onclick="navigateTo('products')">عرض الكل</span>
-                </div>
-                <div class="data-card-body">
-                  <table class="dashboard-table">
-                    <thead>
-                      <tr>
-                        <th>المنتج</th>
-                        <th>السعر</th>
-                      </tr>
-                    </thead>
-                    <tbody id="recentProductsTable">
-                      <tr>
-                        <td colspan="2">
-                          <div class="skeleton skeleton-text"></div>
-                          <div class="skeleton skeleton-text short"></div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
+            <div class="data-card-body">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>المنتج</th>
+                    <th>السعر</th>
+                    <th>الوصف</th>
+                  </tr>
+                </thead>
+                <tbody id="allProductsTable">
+                  <tr>
+                    <td colspan="4">
+                      <div class="skeleton skeleton-text"></div>
+                      <div class="skeleton skeleton-text short"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-
-          <!-- ===== USERS PAGE ===== -->
-          <div class="page-section" id="page-users" style="display:none;">
-            <div class="data-card">
-              <div class="data-card-header">
-                <h3 class="data-card-title">
-                  <i class="fa-solid fa-users"></i>
-                  جميع المستخدمين
-                </h3>
-              </div>
-              <div class="data-card-body">
-                <table class="dashboard-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>المستخدم</th>
-                      <th>البريد الإلكتروني</th>
-                      <th>الهاتف</th>
-                      <th>الدور</th>
-                    </tr>
-                  </thead>
-                  <tbody id="allUsersTable">
-                    <tr>
-                      <td colspan="5">
-                        <div class="skeleton skeleton-text"></div>
-                        <div class="skeleton skeleton-text short"></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== PRODUCTS PAGE ===== -->
-          <div class="page-section" id="page-products" style="display:none;">
-            <div class="data-card">
-              <div class="data-card-header">
-                <h3 class="data-card-title">
-                  <i class="fa-solid fa-box-open"></i>
-                  جميع المنتجات
-                </h3>
-                <button class="quick-action-btn" id="openAddProductBtn">
-                  <i class="fa-solid fa-plus"></i>
-                  إضافة منتج جديد
-                </button>
-              </div>
-              <div class="data-card-body">
-                <table class="dashboard-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>المنتج</th>
-                      <th>السعر</th>
-                      <th>الوصف</th>
-                    </tr>
-                  </thead>
-                  <tbody id="allProductsTable">
-                    <tr>
-                      <td colspan="4">
-                        <div class="skeleton skeleton-text"></div>
-                        <div class="skeleton skeleton-text short"></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== ORDERS PAGE ===== -->
-         <div class="page-section" id="page-orders" style="display:none;">
-            <div class="data-card">
-              <div class="data-card-header">
-                <h3 class="data-card-title">
-                  <i class="fa-solid fa-receipt"></i>
-                  جميع الطلبات
-                </h3>
-                <button class="quick-action-btn" id="refreshOrdersBtn">
-                  <i class="fa-solid fa-rotate"></i>
-                  تحديث البيانات
-                </button>
-              </div>
-              <div class="data-card-body">
-                <table class="dashboard-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>العميل</th>
-                      <th>البريد الإلكتروني</th>
-                      <th>حالة الطلب</th>
-                      <th>تاريخ الطلب</th>
-                      <th>إجمالي المبلغ</th>
-                    </tr>
-                  </thead>
-                  <tbody id="allOrdersTable">
-                    <tr>
-                      <td colspan="6">
-                        <div class="skeleton skeleton-text"></div>
-                        <div class="skeleton skeleton-text short"></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== SETTINGS PAGE ===== -->
-          <div class="page-section" id="page-settings" style="display:none;">
-            <div class="data-card">
-              <div class="data-card-header">
-                <h3 class="data-card-title">
-                  <i class="fa-solid fa-gear"></i>
-                  إعدادات المتجر
-                </h3>
-              </div>
-              <div class="data-card-body">
-                <div class="empty-state">
-                  <i class="fa-solid fa-wrench"></i>
-                  <p>صفحة الإعدادات قيد التطوير</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <!-- ===== ORDERS PAGE ===== -->
+        <div class="page-section" id="page-orders" style="display:none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 class="data-card-title">
+                <i class="fa-solid fa-receipt"></i>
+                جميع الطلبات
+              </h3>
+              <button class="quick-action-btn" id="refreshOrdersBtn">
+                <i class="fa-solid fa-rotate"></i>
+                تحديث البيانات
+              </button>
+            </div>
+            <div class="data-card-body">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>العميل</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>حالة الطلب</th>
+                    <th>تاريخ الطلب</th>
+                    <th>إجمالي المبلغ</th>
+                  </tr>
+                </thead>
+                <tbody id="allOrdersTable">
+                  <tr>
+                    <td colspan="6">
+                      <div class="skeleton skeleton-text"></div>
+                      <div class="skeleton skeleton-text short"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SETTINGS PAGE ===== -->
+        <div class="page-section" id="page-settings" style="display:none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 class="data-card-title">
+                <i class="fa-solid fa-gear"></i>
+                إعدادات المتجر
+              </h3>
+            </div>
+            <div class="data-card-body">
+              <div class="empty-state">
+                <i class="fa-solid fa-wrench"></i>
+                <p>صفحة الإعدادات قيد التطوير</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+  </div>
 
-    <!-- ========== ADD PRODUCT MODAL ========== -->
-    <div class="modal-overlay" id="addProductModal">
-      <div class="modal-card animate-in">
-        <div class="modal-header">
-          <h3 class="modal-title">
-            <i class="fa-solid fa-box-open"></i>
-            <span>إضافة منتج جديد</span>
-          </h3>
-          <button class="modal-close-btn" id="closeAddProductModalBtn" aria-label="إغلاق">
-            <i class="fa-solid fa-xmark"></i>
+  <!-- ========== ADD PRODUCT MODAL ========== -->
+  <div class="modal-overlay" id="addProductModal">
+    <div class="modal-card animate-in">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-box-open"></i>
+          <span>إضافة منتج جديد</span>
+        </h3>
+        <button class="modal-close-btn" id="closeAddProductModalBtn" aria-label="إغلاق">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="addProductForm" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="prodName">اسم المنتج <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="prodName" class="form-control" placeholder="أدخل اسم المنتج (مثال: هاتف ذكي)"
+              required>
+            <div class="form-error" id="prodNameError">يرجى إدخال اسم المنتج (3 أحرف على الأقل).</div>
+          </div>
+          <div class="form-group">
+            <label for="prodPrice">السعر ($) <span style="color: var(--danger);">*</span></label>
+            <input type="number" id="prodPrice" class="form-control" placeholder="أدخل السعر بالدولار (مثال: 499)"
+              min="0.01" step="0.01" required>
+            <div class="form-error" id="prodPriceError">يرجى إدخال سعر صالح أكبر من 0.</div>
+          </div>
+          <div class="form-group">
+            <label for="prodCategory">الفئة <span style="color: var(--danger);">*</span></label>
+            <select id="prodCategory" class="form-control" required style="appearance: auto; direction: rtl;">
+              <option value="" disabled selected>اختر الفئة</option>
+              <option value="الكترونيات">إلكترونيات</option>
+              <option value="ملابس">ملابس</option>
+              <option value="أخرى">أخرى</option>
+            </select>
+            <div class="form-error" id="prodCategoryError">يرجى اختيار الفئة.</div>
+          </div>
+          <div class="form-group">
+            <label for="prodQuantity">الكمية المتاحة <span style="color: var(--danger);">*</span></label>
+            <input type="number" id="prodQuantity" class="form-control" placeholder="أدخل الكمية المتاحة (مثال: 10)"
+              min="1" step="1" required>
+            <div class="form-error" id="prodQuantityError">يرجى إدخال كمية صالحة (1 أو أكثر).</div>
+          </div>
+          <div class="form-group">
+            <label for="prodImage">صورة المنتج</label>
+            <div class="file-upload-wrapper">
+              <input type="file" id="prodImage" accept="image/*" style="display: none;">
+              <label for="prodImage" class="file-upload-label">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span id="file-upload-text">اختر صورة للمنتج</span>
+              </label>
+            </div>
+            <div class="image-preview-container" id="imagePreviewContainer"
+              style="display: none; margin-top: 10px; text-align: center;">
+              <img id="imagePreview" src="" alt="معاينة الصورة"
+                style="max-height: 120px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+            </div>
+            <div class="form-error" id="prodImageError">يرجى اختيار ملف صورة صالح (الحد الأقصى 1.5 ميجابايت).</div>
+          </div>
+          <div class="form-group">
+            <label for="prodDesc">وصف المنتج</label>
+            <textarea id="prodDesc" class="form-control" rows="3"
+              placeholder="أكتب تفاصيل ووصف المنتج هنا..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="quick-action-btn"
+            style="background: var(--gradient-primary); color: white; border: none; padding: 0.65rem 1.5rem;">
+            <i class="fa-solid fa-check"></i>
+            حفظ المنتج
+          </button>
+          <button type="button" class="quick-action-btn" id="cancelAddProductBtn" style="padding: 0.65rem 1.5rem;">
+            إلغاء
           </button>
         </div>
-        <form id="addProductForm" novalidate>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="prodName">اسم المنتج <span style="color: var(--danger);">*</span></label>
-              <input type="text" id="prodName" class="form-control" placeholder="أدخل اسم المنتج (مثال: هاتف ذكي)" required>
-              <div class="form-error" id="prodNameError">يرجى إدخال اسم المنتج (3 أحرف على الأقل).</div>
-            </div>
-            <div class="form-group">
-              <label for="prodPrice">السعر ($) <span style="color: var(--danger);">*</span></label>
-              <input type="number" id="prodPrice" class="form-control" placeholder="أدخل السعر بالدولار (مثال: 499)" min="0.01" step="0.01" required>
-              <div class="form-error" id="prodPriceError">يرجى إدخال سعر صالح أكبر من 0.</div>
-            </div>
-            <div class="form-group">
-              <label for="prodCategory">الفئة <span style="color: var(--danger);">*</span></label>
-              <select id="prodCategory" class="form-control" required style="appearance: auto; direction: rtl;">
-                <option value="" disabled selected>اختر الفئة</option>
-                <option value="الكترونيات">إلكترونيات</option>
-                <option value="ملابس">ملابس</option>
-                <option value="أخرى">أخرى</option>
-              </select>
-              <div class="form-error" id="prodCategoryError">يرجى اختيار الفئة.</div>
-            </div>
-            <div class="form-group">
-              <label for="prodQuantity">الكمية المتاحة <span style="color: var(--danger);">*</span></label>
-              <input type="number" id="prodQuantity" class="form-control" placeholder="أدخل الكمية المتاحة (مثال: 10)" min="1" step="1" required>
-              <div class="form-error" id="prodQuantityError">يرجى إدخال كمية صالحة (1 أو أكثر).</div>
-            </div>
-            <div class="form-group">
-              <label for="prodImage">صورة المنتج</label>
-              <div class="file-upload-wrapper">
-                <input type="file" id="prodImage" accept="image/*" style="display: none;">
-                <label for="prodImage" class="file-upload-label">
-                  <i class="fa-solid fa-cloud-arrow-up"></i>
-                  <span id="file-upload-text">اختر صورة للمنتج</span>
-                </label>
-              </div>
-              <div class="image-preview-container" id="imagePreviewContainer" style="display: none; margin-top: 10px; text-align: center;">
-                <img id="imagePreview" src="" alt="معاينة الصورة" style="max-height: 120px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-              </div>
-              <div class="form-error" id="prodImageError">يرجى اختيار ملف صورة صالح (الحد الأقصى 1.5 ميجابايت).</div>
-            </div>
-            <div class="form-group">
-              <label for="prodDesc">وصف المنتج</label>
-              <textarea id="prodDesc" class="form-control" rows="3" placeholder="أكتب تفاصيل ووصف المنتج هنا..."></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="quick-action-btn" style="background: var(--gradient-primary); color: white; border: none; padding: 0.65rem 1.5rem;">
-              <i class="fa-solid fa-check"></i>
-              حفظ المنتج
-            </button>
-            <button type="button" class="quick-action-btn" id="cancelAddProductBtn" style="padding: 0.65rem 1.5rem;">
-              إلغاء
-            </button>
-          </div>
-        </form>
-      </div>
+      </form>
     </div>
+  </div>
+  <!-- ======== Add file products ========= -->
+  <div class="modal-overlay" id="addProductFileModal">
+    <div class="modal-card animate-in">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-box-open"></i>
+          <span>إضافة ملف منتجات</span>
+        </h3>
+        <button class="modal-close-btn" id="closeAddFileProductModalBtn" aria-label="إغلاق">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="addFileProductForm" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="productsFile">أختر الملف</label>
+            <div class="file-upload-wrapper">
+              <input type="file" id="productsFile" accept=".xlsx,.xls,.csv,.txt" style="display: none;">
+              <label for="productsFile" class="file-upload-label">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span id="file-upload-text-2">اختر الملف (.xlsx, .xls, .csv, .txt)</span>
+              </label>
+            </div>
+            <div class="form-error" id="prodFileError" style="display: none;">يرجى اختيار ملف صالح (الحد الأقصى 20 ميجابايت).</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="quick-action-btn"
+            style="background: var(--gradient-primary); color: white; border: none; padding: 0.65rem 1.5rem;">
+            <i class="fa-solid fa-check"></i>
+            حفظ الملف
+          </button>
+          <button type="button" class="quick-action-btn" id="cancelAddFileProductBtn" style="padding: 0.65rem 1.5rem;">
+            إلغاء
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-    <!-- ========== TOAST NOTIFICATION CONTAINER ========== -->
-    <div class="toast-container" id="toastContainer"></div>
+  <!-- ========== TOAST NOTIFICATION CONTAINER ========== -->
+  <div class="toast-container" id="toastContainer"></div>
 
-    <script src="../js/pages/dashboard.js"></script>
-  </body>
+  <script src="../js/pages/dashboard.js"></script>
+</body>
+
 </html>

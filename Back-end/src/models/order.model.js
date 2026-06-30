@@ -20,6 +20,11 @@ const order = {
         const query = "INSERT INTO payment (Payment_Method, order_id, Payment_Status, Payment_Date ) VALUES (?,?, 'Pending', NOW())";
         const paymentData = [data.Payment_Method, data.order_id];
         pool.query(query, paymentData, callback);
+    },
+    deleteOrder: (order_id, callback)=>{
+        const query = "DELETE FROM orders WHERE order_id = ?"
+        const orderData = [order_id]
+        pool.query(query,orderData,callback)
     }
 }
 

@@ -107,7 +107,9 @@ buyButton.setAttribute("data-product-id", productId)
 
       // Update DOM
       // We check multiple common names since we don't know the exact DB schema
-      titleEl.textContent = product.name || product.product_name || product.title || 'اسم المنتج غير متوفر';
+            const productTitle = product.name || product.product_name || product.title || 'اسم المنتج غير متوفر';
+      titleEl.textContent = productTitle;
+      document.title = productTitle + ' - B2B Store';
       descEl.textContent = product.description || product.details || 'وصف المنتج غير متوفر حالياً.';
       priceEl.textContent = `${product.price || 0}$`;
         const originalPrice = Number(product.price);

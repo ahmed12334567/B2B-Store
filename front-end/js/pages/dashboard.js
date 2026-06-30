@@ -43,6 +43,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Initialize add product feature
   initAddProductFeature();
+
+  // Initialize add file products feature
+  initAddFileProducts();
 });
 
 function updateTime() {
@@ -573,6 +576,12 @@ function openAddProductModal() {
     addProductModal.classList.add("show");
   }
 }
+function addFileProductModal() {
+  const addFileProductModal = document.getElementById("addProductFileModal");
+  if (addFileProductModal) {
+    addFileProductModal.classList.add("show");
+  }
+}
 
 function closeAddProductModal() {
   const addProductModal = document.getElementById("addProductModal");
@@ -581,10 +590,18 @@ function closeAddProductModal() {
   }
   resetAddProductForm();
 }
+function closeAddFileProductModal() {
+  const addProductModal = document.getElementById("addProductFileModal");
+  if (addProductModal) {
+    addProductModal.classList.remove("show");
+  }
+  resetAddProductForm();
+}
 
 function resetAddProductForm() {
   const form = document.getElementById("addProductForm");
-  if (form) {
+  const formFile = document.getElementById("addFileProductForm");
+  if (form || formFile) {
     form.reset();
   }
   
@@ -592,6 +609,13 @@ function resetAddProductForm() {
   
   const fileText = document.getElementById("file-upload-text");
   if (fileText) fileText.textContent = "اختر صورة للمنتج";
+
+  const fileText2 = document.getElementById("file-upload-text-2");
+  if (fileText2) fileText2.textContent = "اختر الملف (.xlsx, .xls, .csv, .txt)";
+
+  const prodFileError = document.getElementById("prodFileError");
+  if (prodFileError) prodFileError.style.display = "none";
+
   
   const previewContainer = document.getElementById("imagePreviewContainer");
   if (previewContainer) previewContainer.style.display = "none";
@@ -738,7 +762,102 @@ async function handleAddProductSubmit(e) {
   }
 }
 
+function initAddFileProducts() {
+  const quickAddBtn = document.getElementById("openAddProductFileBtn");
+  const openAddBtn = document.getElementById("openAddFileProductBtn");
+  const closeBtn = document.getElementById("closeAddFileProductModalBtn");
+  const cancelBtn = document.getElementById("cancelAddFileProductBtn");
+  const form = document.getElementById("addFileProductForm");
+  const addProductModal = document.getElementById("addProductFileModal");
 
+  if (quickAddBtn) quickAddBtn.addEventListener("click", addFileProductModal);
+  if (openAddBtn) openAddBtn.addEventListener("click", addFileProductModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeAddFileProductModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeAddFileProductModal);
+
+  if (addProductModal) {
+    addProductModal.addEventListener("click", (e) => {
+      if (e.target === addProductModal) {
+        closeAddFileProductModal();
+      }
+    });
+  }
+
+  const fileInput = document.getElementById("productsFile");
+  const fileText = document.getElementById("file-upload-text-2");
+  if (fileInput) {
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (fileText) fileText.textContent = file ? file.name : "اختر الملف (.xlsx, .xls, .csv, .txt)";
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", handleAddFileProductSubmit);
+  }
+}
+
+async function handleAddFileProductSubmit(e) {
+  e.preventDefault();
+
+  const fileInput = document.getElementById("productsFile");
+  const prodFileError = document.getElementById("prodFileError");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    if (prodFileError) {
+      prodFileError.textContent = "اختر ملف";
+      prodFileError.style.display = "block";
+    }
+    return;
+  } else if (prodFileError) {
+    prodFileError.style.display = "none";
+  }
+
+  const submitBtn = document.getElementById("submitFileBtnId") || e.target.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري رفع الملف...';
+  }
+
+  try {
+    const token = getAdminToken();
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch(`${API_BASE}/import-file-products`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "حدث خطأ أثناء رفع الملف");
+    }
+
+    showToast("تم استيراد المنتجات بنجاح!", "success");
+
+    closeAddFileProductModal();
+    loadDashboardStats();
+
+    const activeLink = document.querySelector(".sidebar-link.active");
+    if (activeLink && activeLink.dataset.page === "products") {
+      loadAllProducts();
+    }
+  } catch (err) {
+    console.error("فشل الاتصال بالسيرفر:", err);
+    showToast(err.message || "فشل رفع الملف إلى السيرفر", "danger");
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "استيراد المنتجات";
+    }
+  }
+}
 
 // ========================================
 // TOAST SYSTEM

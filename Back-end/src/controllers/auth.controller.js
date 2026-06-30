@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
         const phone = req.body?.phone;
         const isGoogleUser = req.body?.isGoogleUser;
         const googleToken = req.body?.googleIdToken;
-        
+
         if (!isGoogleUser && !password) {
             return res.status(400).json({ success: false, field: "password", message: "Password is required" });
         }
@@ -44,8 +44,8 @@ router.post("/register", async (req, res) => {
                     return res.status(200).json({
                         success: true,
                         message: "Logged in successfully via Google",
-                        user: { 
-                            name: existingUser.name, 
+                        user: {
+                            name: existingUser.name,
                             email: existingUser.email,
                             location: existingUser.address,
                             phone: existingUser.phone
@@ -74,7 +74,7 @@ router.post("/register", async (req, res) => {
                     role: "customer"
                 };
                 console.log(userData);
-                
+
 
                 user.createUser(userData, (createErr) => {
                     if (createErr) {
@@ -113,7 +113,7 @@ router.post("/login", async (req, res) => {
         const password = req.body?.password?.trim();
         const isGoogleUser = req.body?.isGoogleUser;
         const googleToken = req.body?.googleIdToken;
-        
+
         if (!email || (!isGoogleUser && !password)) {
             return res.status(400).json({ success: false, message: "All fields required" });
         }
@@ -153,10 +153,10 @@ router.post("/login", async (req, res) => {
             }
 
             if (existingUser.isGoogleUser === 1 || !existingUser.password_user) {
-                return res.status(400).json({ 
-                    success: false, 
-                    field: "password", 
-                    message: "هذا الحساب مسجل عبر جوجل. يرجى استخدام زر تسجيل الدخول بواسطة جوجل." 
+                return res.status(400).json({
+                    success: false,
+                    field: "password",
+                    message: "هذا الحساب مسجل عبر جوجل. يرجى استخدام زر تسجيل الدخول بواسطة جوجل."
                 });
             }
 
@@ -186,48 +186,48 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/google-data", async (req, res) => {
-  const { token } = req.body;
+    const { token } = req.body;
 
-  if (!token) {
-    return res.status(400).json({ success: false, message: "Token is required" });
-  }
-
-  if (token === "test_token") {
-    return res.status(200).json({
-      success: true,
-      token: token,
-      message: "Logged in successfully via Google",
-      user: {
-        name: "Ahmed Tester",
-        email: "ahmed_test_postman@gmail.com"
-      }
-    });
-  }
-
-
-  try {
-    const googleResponse = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`);
-
-    if (!googleResponse.ok) {
-      return res.status(401).json({ success: false, message: "Invalid Google Token" });
+    if (!token) {
+        return res.status(400).json({ success: false, message: "Token is required" });
     }
 
-    const userData = await googleResponse.json();
+    if (token === "test_token") {
+        return res.status(200).json({
+            success: true,
+            token: token,
+            message: "Logged in successfully via Google",
+            user: {
+                name: "Ahmed Tester",
+                email: "ahmed_test_postman@gmail.com"
+            }
+        });
+    }
 
-    return res.status(200).json({
-      success: true,
-      token: token,
-      message: "Logged in successfully via Google",
-      user: {
-        name: userData.name,
-        email: userData.email
-      }
-    });
 
-  } catch (error) {
-    console.error("Google API Error:", error);
-    return res.status(500).json({ success: false, message: "Failed to connect to Google servers" });
-  }
+    try {
+        const googleResponse = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`);
+
+        if (!googleResponse.ok) {
+            return res.status(401).json({ success: false, message: "Invalid Google Token" });
+        }
+
+        const userData = await googleResponse.json();
+
+        return res.status(200).json({
+            success: true,
+            token: token,
+            message: "Logged in successfully via Google",
+            user: {
+                name: userData.name,
+                email: userData.email
+            }
+        });
+
+    } catch (error) {
+        console.error("Google API Error:", error);
+        return res.status(500).json({ success: false, message: "Failed to connect to Google servers" });
+    }
 });
 
 router.get("/user", (req, res) => {
@@ -239,10 +239,10 @@ router.get("/user", (req, res) => {
         return;
     }
 
-    else{
+    else {
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
-                console.error("JWT Verification Error:", err.message); 
+                console.error("JWT Verification Error:", err.message);
                 if (err.name === 'TokenExpiredError') {
                     return res.status(401).json({ success: false, message: "Token expired" });
                 }
@@ -263,44 +263,47 @@ router.get("/user", (req, res) => {
     }
 })
 
-router.post("/login/admin",  (req, res) =>{
-    try{
-    const email = req.body?.email?.trim()
-    const password = req.body?.password?.trim()
-    user.findByEmail(email, async (error, result) =>{
-        if(error){
-            console.log("DB Error: ", error);
-            return res.status(500).json({success: false, data:{message:"server error"}})
-        }
-        let user = result[0]
-        if(!user){
-            return res.status(400).json({success: false, data:{message:"User not found"}})
-        }
-        let comparePassword = await bcrypt.compare(password, user.password_user)
-        if(!comparePassword){
-            return res.status(400).json({success: false, data:{message:"Wrong Email or Password"}})
-        }
-        if(user.role !== "admin"){
-            return res.status(400).json({success: false, data:{message:"Wrong  or Password"}})
-        }
-        else{
-            const token = jwt.sign(
-            { id: user.user_id, email: user.email },
-            JWT_SECRET,
-            { expiresIn: "1h" }
-            );
-            return res.status(200).json({success: true, data:{message:"login successfuly admin",
-                user:{
-                    email: user.email,
-                    role: user.role
-                },
-                token: token
-            }})
-        }
-    })
-    }catch(error){
+router.post("/login/admin", (req, res) => {
+    try {
+        const email = req.body?.email?.trim()
+        const password = req.body?.password?.trim()
+        user.findByEmail(email, async (error, result) => {
+            if (error) {
+                console.log("DB Error: ", error);
+                return res.status(500).json({ success: false, data: { message: "server error" } })
+            }
+            let user = result[0]
+            if (!user) {
+                return res.status(400).json({ success: false, data: { message: "User not found" } })
+            }
+            let comparePassword = await bcrypt.compare(password, user.password_user)
+            if (!comparePassword) {
+                return res.status(400).json({ success: false, data: { message: "Wrong Email or Password" } })
+            }
+            if (user.role !== "admin") {
+                return res.status(400).json({ success: false, data: { message: "Wrong  or Password" } })
+            }
+            else {
+                const token = jwt.sign(
+                    { id: user.user_id, email: user.email },
+                    JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+                return res.status(200).json({
+                    success: true, data: {
+                        message: "login successfuly admin",
+                        user: {
+                            email: user.email,
+                            role: user.role
+                        },
+                        token: token
+                    }
+                })
+            }
+        })
+    } catch (error) {
         console.log("error: ", error);
-        return res.status(500).json({success: false, data:{message:"server error"}})
+        return res.status(500).json({ success: false, data: { message: "server error" } })
     }
 })
 

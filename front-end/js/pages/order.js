@@ -138,7 +138,7 @@ async function fetchProduct() {
       stockBadgeEl.dataset.inStock   = stock > 0 ? 'true' : 'false';
     }
 
-    document.title = product.product_name + ' — طلب';
+        document.title = product.product_name + ' - B2B Store';
 
   } catch (err) {
     console.error('خطأ في جلب المنتج:', err);

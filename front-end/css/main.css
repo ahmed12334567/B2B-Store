@@ -886,11 +886,11 @@ img {
   line-height: 1.4;
 }
 
-.product-card-body .description {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.6rem;
-  line-height: 1.5;
+.product-card .description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Price */

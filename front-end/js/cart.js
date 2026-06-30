@@ -145,7 +145,7 @@ function renderCartItems() {
   let total = 0;
 
   cartItems.forEach((item) => {
-    total += item.price * item.quantity;
+    total += item.price;
     const productUrl = getProductDetailsUrl(item.product_id);
     const productName = escapeHtml(item.product_name);
     const productImage = escapeHtml(item.imgURL);
@@ -158,8 +158,7 @@ function renderCartItems() {
       </a>
       <div class="cart-item-info">
         <a href="${productUrl}" class="cart-item-name cart-item-name-link">${productName}</a>
-        <p class="cart-item-price">${item.price}$ x ${item.quantity}</p>
-        <p class="cart-item-subtotal">${(item.price * item.quantity).toFixed(2)}$</p>
+        <p class="cart-item-subtotal">${(item.price)}$</p>
       </div>
       <button class="cart-item-remove" data-id="${item.product_id}" aria-label="Remove">
         <i class="fa-solid fa-trash-can"></i>
@@ -331,15 +330,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // "Add to cart" buttons on product cards (index page)
-  document.querySelectorAll(".btn-cart").forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const card = btn.closest("[data-product-id]");
-      const productId = card ? parseInt(card.dataset.productId, 10) : null;
-      if (productId) await addToCart(productId, btn);
-    });
-  });
+// Event delegation — بيشتغل حتى لو الأزرار اتعملت بعدين
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".btn-cart");
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const card = btn.closest("[data-product-id]");
+  const productId = card ? parseInt(card.dataset.productId, 10) : null;
+  if (productId) await addToCart(productId, btn);
+});
 
   // "Add to cart" button on product detail page
   const addCartDetailBtn = document.getElementById("btn-add-cart");

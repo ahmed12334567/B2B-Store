@@ -77,57 +77,79 @@ async function checkUser() {
 }
 
 checkUser();
-const cards = document.querySelectorAll(".product-card");
-
-fetch("http://localhost:3000/api/products/")
-  .then(res => res.json())
-  .then(result => {
-    const products = result.data;
-    const cards = document.querySelectorAll(".product-card");
-
-    cards.forEach((card, index) => {
-      const product = products[index];
-
-      if (!product) return;
-
-      card.href = `pages/product.html?id=${product.product_id}`;
-
-      // Set data-product-id on the wrapper so cart.js can read it
-      const wrapper = card.closest(".product-wrapper") || card;
-      wrapper.dataset.productId = product.product_id;
-
-      card.querySelector("img").src = product.imgURL;
-      card.querySelector("img").alt = product.product_name;
-
-      card.querySelector("h4").textContent = product.product_name;
-
-      card.querySelector(".description").textContent =
-        product.description.substring(0, 80) + "...";
-
-      card.querySelector(".price-current").textContent =
-        `${product.price}$`;
-        const originalPrice = Number(product.price);
-        const discountedPrice = originalPrice + (originalPrice * 20 / 100);
-      card.querySelector(".price-old").textContent =
-      `${discountedPrice}$`;
-    });
-
-    // Re-attach cart button listeners now that data-product-id is set
-    document.querySelectorAll(".btn-cart").forEach((btn) => {
-      btn.addEventListener("click", async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const wrapper = btn.closest("[data-product-id]");
-        const productId = wrapper ? parseInt(wrapper.dataset.productId, 10) : null;
-        if (productId && window.cartAPI) {
-          await window.cartAPI.addToCart(productId, btn);
-        }
-      });
-    });
-  })
-  .catch(err => console.error(err));
 
 
+async function loadProducts(containerId, apiUrl) {
+  const container = document.getElementById(containerId);
+
+  // Loading state
+  container.innerHTML = `
+    <div class="loading-state">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <p>جاري تحميل المنتجات...</p>
+    </div>
+  `;
+
+  try {
+    const response = await fetch(apiUrl);
+    const json = await response.json();
+
+    if (!json.success || !json.data.length) {
+      container.innerHTML = `<p class="error-msg">لا توجد منتجات متاحة حالياً</p>`;
+      return;
+    }
+
+    container.innerHTML = json.data.map(product => {
+      const price = parseFloat(product.price);
+      const oldPrice = (price / 0.8).toFixed(2); // السعر قبل خصم 20%
+
+     return `
+  <div class="product-wrapper" data-product-id="${product.product_id}">
+    <a href="pages/product.html?id=${product.product_id}" class="product-card animate-on-scroll">
+      <div class="product-card-image">
+        <img src="${product.imgURL}" alt="${product.product_name}" class="product-img" loading="lazy">
+      </div>
+      <div class="product-card-body">
+        <h4>${product.product_name}</h4>
+        <p class="description">${product.description}</p>
+        <div class="price-row">
+          <span class="price-current">$${price.toFixed(2)}</span>
+          <span class="price-old">$${oldPrice}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-buy">
+            <i class="fa-solid fa-bolt"></i>
+            اشتري الآن
+          </button>
+          <button class="btn-cart">
+            <i class="fa-solid fa-cart-plus"></i>
+            أضف إلى السلة
+          </button>
+        </div>
+        <p class="delivery-info">
+          <i class="fa-solid fa-truck-fast"></i>
+          توصيل خلال 3-5 أيام
+        </p>
+      </div>
+    </a>
+  </div>
+`;
+    }).join('');
+container.querySelectorAll(".animate-on-scroll").forEach(el => {
+  scrollObserver.observe(el);
+});
+  } catch (error) {
+    console.error('Error loading products:', error);
+    container.innerHTML = `
+      <div class="error-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p>حدث خطأ أثناء تحميل المنتجات، حاول مرة أخرى</p>
+        <button onclick="loadProducts('${containerId}', '${apiUrl}')">إعادة المحاولة</button>
+      </div>
+    `;
+  }
+}
+loadProducts("products-grid", "http://localhost:3000/api/products/")
 const burgerBtn = document.getElementById("burger-btn");
 const navbarCollapse = document.getElementById("navbar-collapse");
 
