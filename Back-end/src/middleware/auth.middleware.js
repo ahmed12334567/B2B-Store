@@ -41,10 +41,6 @@ function verifyUserf(req, res, next) {
     if (!token) {
         return res.status(401).json({ success: false, message: "Token is required" });
     }
-    // if(token === "test_token"){
-    //     next()
-    // }
-
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({ success: false, message: "Invalid or expired token" });

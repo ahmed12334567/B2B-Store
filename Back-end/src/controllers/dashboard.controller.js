@@ -210,7 +210,6 @@ router.post("/import-file-products", verifyAdmin, upload.single("file"), async (
                 message: "Products sheet not found"
             });
         }
-        console.log(products);
         const requriedFalides = ["product_name", "stock_quantity", "description", "price", "category_id", "imgURL"]
         const headers = Object.keys(products[0] || {});
         const missingFields = requriedFalides.filter(
@@ -251,7 +250,6 @@ router.post("/import-file-products", verifyAdmin, upload.single("file"), async (
             category_id: Number(product.category_id),
             imgURL: product.imgURL
         }));
-        console.log(productsData);
 
         statsModel.createProducts(productsData, (error, result) => {
             if (error) {

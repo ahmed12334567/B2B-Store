@@ -4,7 +4,6 @@ const addToCart = (req, res) => {
   const userId = req.userId;
   const productId = req.body?.productId;
   const quantity = req.body?.quantity || 1;
-
   if (!userId || !productId) {
     return res.status(400).json({ success: false, data: { message: "Bad Request" } });
   }

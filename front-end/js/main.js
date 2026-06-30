@@ -101,7 +101,7 @@ async function loadProducts(containerId, apiUrl) {
 
     container.innerHTML = json.data.map(product => {
       const price = parseFloat(product.price);
-      const oldPrice = (price / 0.8).toFixed(2); // السعر قبل خصم 20%
+      const oldPrice = (price / 0.8).toFixed(2);
 
      return `
   <div class="product-wrapper" data-product-id="${product.product_id}">

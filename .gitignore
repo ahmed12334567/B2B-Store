@@ -12,3 +12,8 @@ node_modules/
 access.log
 .vscode/
 .DS_Store
+.claude
+.cursor
+uploads
+AGRNTIS.node_modules
+LEAN-CTX.md

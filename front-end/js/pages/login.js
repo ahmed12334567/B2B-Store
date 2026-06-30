@@ -51,7 +51,6 @@ async function submitLoginForm() {
     });
 
     const data = await res.json();
-    console.log(data);
     if (data.success) {
       const token = data.token || (data.data && data.data.token) || (data.user && data.user.token);
       localStorage.setItem("token", token);

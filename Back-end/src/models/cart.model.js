@@ -9,12 +9,12 @@ const cart = {
       ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
     `;
     const cartData = [data.userId, data.productId, data.quantity];
-    pool.query(query, cartData, callback);
+   pool.execute(query, cartData, callback);
   },
 
   deleteCart: (userId, productId, callback) => {
     const query = "DELETE FROM cart_items WHERE user_id = ? AND product_id = ?";
-    pool.query(query, [userId, productId], callback);
+   pool.execute(query, [userId, productId], callback);
   },
 
   getCart: (userId, callback) => {
@@ -29,7 +29,7 @@ const cart = {
       INNER JOIN products ON cart_items.product_id = products.product_id
       WHERE cart_items.user_id = ?
     `;
-    pool.query(query, [userId], callback);
+   pool.execute(query, [userId], callback);
   }
 };
 

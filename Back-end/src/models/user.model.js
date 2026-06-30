@@ -5,25 +5,25 @@ const user =
     createUser: (userData, callback) => {
         const qurey = "INSERT INTO users (name, email, password_user, address, phone, isGoogleUser, role) VALUES (?, ?, ?, ?, ?, ?, ?)"
         const data = [userData.username, userData.email, userData.password, userData.address, userData.phone,userData.isGoogleUser,userData.role]
-        pool.query(qurey, data, callback);
+        pool.execute(qurey, data, callback);
     },
     createAdmin: (userData, callback) => {
         const qurey = "INSERT INTO users (name, email, password_user, address, phone, isGoogleUser, role) VALUES (?, ?, ?, ?, ?, ?, ?)"
         const data = [userData.username, userData.email, userData.password, userData.address, userData.phone,userData.isGoogleUser,userData.role]
-        pool.query(qurey, data, callback);
+        pool.execute(qurey, data, callback);
     },
     findByEmail: (email, callback) => {
         const qurey = "SELECT * FROM users WHERE email = ?"
-        pool.query(qurey, [email], callback);
+        pool.execute(qurey, [email], callback);
     },
     getAllUsers: (callback) =>{
         const query = "SELECT user_id, name, email, phone, address, role, isGoogleUser FROM users ORDER BY user_id DESC"
-        pool.query(query, callback)
+        pool.execute(query, callback)
     },
     deleteUser: (user_id, callback) =>{
         const query = "DELETE FROM users WHERE user_id = ?"
         const deleteData = [user_id]
-        pool.query(query, deleteData, callback)
+        pool.execute(query, deleteData, callback)
     }
 }
 

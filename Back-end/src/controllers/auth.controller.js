@@ -73,7 +73,6 @@ router.post("/register", async (req, res) => {
                     isGoogleUser: isGoogleUser,
                     role: "customer"
                 };
-                console.log(userData);
 
 
                 user.createUser(userData, (createErr) => {
@@ -113,12 +112,12 @@ router.post("/login", async (req, res) => {
         const password = req.body?.password?.trim();
         const isGoogleUser = req.body?.isGoogleUser;
         const googleToken = req.body?.googleIdToken;
-
+        
         if (!email || (!isGoogleUser && !password)) {
             return res.status(400).json({ success: false, message: "All fields required" });
         }
 
-        user.findByEmail([email], async (error, result) => {
+        user.findByEmail(email, async (error, result) => {
             if (error) {
                 console.error("DB Error: ", error);
                 return res.status(500).json({ success: false, message: "Internal server error" });
@@ -233,7 +232,8 @@ router.post("/google-data", async (req, res) => {
 router.get("/user", (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-
+    console.log(token);
+    
     if (!token) {
         res.status(400).json({ success: false, message: "token is required" })
         return;
@@ -248,7 +248,7 @@ router.get("/user", (req, res) => {
                 }
                 return res.status(403).json({ success: false, message: "Invalid token" });
             }
-            user.findByEmail([decoded.email], async (err, result) => {
+            user.findByEmail(decoded.email, async (err, result) => {
                 if (err) {
                     console.error("DB Error: ", err);
                     return res.status(500).json({ success: false, message: "Internal server error" });
