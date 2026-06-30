@@ -19,6 +19,11 @@ const user =
     getAllUsers: (callback) =>{
         const query = "SELECT user_id, name, email, phone, address, role, isGoogleUser FROM users ORDER BY user_id DESC"
         pool.query(query, callback)
+    },
+    deleteUser: (user_id, callback) =>{
+        const query = "DELETE FROM users WHERE user_id = ?"
+        const deleteData = [user_id]
+        pool.query(query, deleteData, callback)
     }
 }
 

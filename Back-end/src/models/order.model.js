@@ -7,7 +7,7 @@ const order = {
         pool.query(query, orderData, callback)
     },
     getAllOrders: (callback) => {
-        const query = `SELECT users.name , users.email , orders.Order_Status, orders.order_date , orders.Total_Amount , orders.createAt
+        const query = `SELECT users.name , users.email , orders.order_id, orders.Order_Status, orders.order_date , orders.Total_Amount , orders.createAt
                         FROM orders INNER JOIN users ON orders.user_id = users.user_id`
         pool.query(query, callback)
     },

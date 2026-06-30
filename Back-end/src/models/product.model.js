@@ -20,15 +20,10 @@ const product = {
         console.log(dataProduct);
         pool.query(query, dataProduct, callback)
     },
-    getStatus: (callback) => {
-        const queries = {
-            totalUsers: "SELECT COUNT(*) as count FROM users",
-            totalProducts: "SELECT COUNT(*) as count FROM products",
-            totalOrders: "SELECT COUNT(*) as count FROM orders",
-            recentUsers: `SELECT user_id, name, email FROM users WHERE role = "customer" ORDER BY user_id DESC LIMIT 5 `,
-            recentProducts: `SELECT product_id, product_name,Stock_Quantity,description, price, imgURL FROM products ORDER BY product_id DESC LIMIT 5`
-        };
-        pool.query(queries, callback)
+    deletPrdouct: (product_id, callback) =>{
+        const query = "DELETE FROM products WHERE product_id = ?"
+        const deleteData = [product_id]
+        pool.query(query, deleteData, callback)
     }
 
 }

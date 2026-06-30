@@ -349,6 +349,7 @@
                     <th>البريد الإلكتروني</th>
                     <th>الهاتف</th>
                     <th>الدور</th>
+                    <th>الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody id="allUsersTable">
@@ -389,6 +390,7 @@
                     <th>المنتج</th>
                     <th>السعر</th>
                     <th>الوصف</th>
+                    <th>الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody id="allProductsTable">
@@ -405,42 +407,42 @@
         </div>
 
         <!-- ===== ORDERS PAGE ===== -->
-        <div class="page-section" id="page-orders" style="display:none;">
-          <div class="data-card">
-            <div class="data-card-header">
-              <h3 class="data-card-title">
-                <i class="fa-solid fa-receipt"></i>
-                جميع الطلبات
-              </h3>
-              <button class="quick-action-btn" id="refreshOrdersBtn">
-                <i class="fa-solid fa-rotate"></i>
-                تحديث البيانات
-              </button>
-            </div>
-            <div class="data-card-body">
-              <table class="dashboard-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>العميل</th>
-                    <th>البريد الإلكتروني</th>
-                    <th>حالة الطلب</th>
-                    <th>تاريخ الطلب</th>
-                    <th>إجمالي المبلغ</th>
-                  </tr>
-                </thead>
-                <tbody id="allOrdersTable">
-                  <tr>
-                    <td colspan="6">
-                      <div class="skeleton skeleton-text"></div>
-                      <div class="skeleton skeleton-text short"></div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+<div class="page-section" id="page-orders" style="display:none;">
+  <div class="data-card">
+    <div class="data-card-header">
+      <h3 class="data-card-title">
+        <i class="fa-solid fa-receipt"></i>
+        جميع الطلبات
+      </h3>
+      <button class="quick-action-btn" id="refreshOrdersBtn">
+        <i class="fa-solid fa-rotate"></i>
+        تحديث البيانات
+      </button>
+    </div>
+    <div class="data-card-body">
+      <table class="dashboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>العميل</th>
+            <th>البريد الإلكتروني</th>
+            <th>حالة الطلب</th>
+            <th>تاريخ الطلب</th>
+            <th>إجمالي المبلغ</th>
+            <th>الإجراءات</th> </tr>
+        </thead>
+        <tbody id="allOrdersTable">
+          <tr class="skeleton-row">
+            <td colspan="7">
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text short"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
         <!-- ===== SETTINGS PAGE ===== -->
         <div class="page-section" id="page-settings" style="display:none;">
@@ -460,6 +462,21 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DELETE CONFIRMATION MODAL ========== -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="modal-title">تأكيد الحذف</h3>
+      <p class="modal-text">هل أنت متأكد من حذف هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel-btn" id="cancelDelete">إلغاء</button>
+        <button class="modal-btn confirm-btn" id="confirmDelete">حذف</button>
       </div>
     </div>
   </div>

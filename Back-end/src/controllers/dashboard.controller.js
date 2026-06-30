@@ -289,9 +289,34 @@ router.get("/all-orders", verifyAdmin, (req, res) => {
     })
 })
 
-router.delete("/delete-order", verifyAdmin, (req, res) => {
-    const order_id = req.body?.order_id
+router.delete("/delete-order/:id", verifyAdmin, (req, res) => {
+    const order_id = req.params.id
     orderModel.deleteOrder(order_id, (error, result) => {
+        if (error) {
+            console.log("DB Error: ", error);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
+        }
+        if (result) {
+            return res.status(200).json({ success: true, data: null })
+        }
+    })
+})
+
+router.delete("/delete-product/:id", verifyAdmin, (req, res) =>{
+    const product_id = req.params.id
+    productModel.deletPrdouct(product_id, (error, result)=>{
+        if (error) {
+            console.log("DB Error: ", error);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
+        }
+        if (result) {
+            return res.status(200).json({ success: true, data: null })
+        }
+    })
+})
+router.delete("/delete-user/:id", verifyAdmin, (req, res) =>{
+    const user_id = req.params.id
+    userModel.deleteUser(user_id, (error, result)=>{
         if (error) {
             console.log("DB Error: ", error);
             return res.status(500).json({ success: false, message: "Internal Server Error" });
