@@ -20,7 +20,7 @@
     "mysql2": "^3.16.3"
   },
   "scripts": {
-    "start": "node Back-end/src/server.js"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=18.0.0"
