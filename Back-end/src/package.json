@@ -17,9 +17,12 @@
     "multer": "^2.2.0",
     "mysql2": "^3.16.3"
   },
+  "name": "B2B Store",
+  "version": "1.0.0",
   "scripts": {
     "start": "node server.js"
   },
   "engines": {
-     "node": ">=18.0.0" }
+    "node": ">=18.0.0"
+  }
 }
